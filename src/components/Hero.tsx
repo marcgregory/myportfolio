@@ -20,7 +20,7 @@ const Hero = () => {
           >
             <span className="text-muted-foreground">Hi, I'm</span>{" "}
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Marc Gregory Developer
+              Marc Gregory
             </span>
           </motion.h1>
 

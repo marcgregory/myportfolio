@@ -5,8 +5,8 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto text-center">
         <p className="text-muted-foreground">
           {" "}
-          © {currentYear} Marc Gregory Developer. Built with React, TypeScript,
-          and Tailwind.
+          © {currentYear} Marc Gregory. Built with React, TypeScript, and
+          Tailwind.
         </p>
       </div>
     </footer>
