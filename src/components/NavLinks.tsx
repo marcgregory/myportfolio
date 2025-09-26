@@ -1,16 +1,20 @@
-import { useState } from "react";
 import { Button } from "./ui/button";
-import { scrollToSection } from "../utils/scrollToSection";
 
 const navlinks = ["About", "Projects", "Contact", "Hire me"];
 
-const NavLinks = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+type NavLinksProps = {
+  isMenuOpen: boolean;
+  toggleMenu: () => void;
+  activeLink: string;
+  handleNavLinkClick: (name: string) => void;
+};
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
+const NavLinks = ({
+  isMenuOpen,
+  toggleMenu,
+  activeLink,
+  handleNavLinkClick,
+}: NavLinksProps) => {
   return (
     <>
       {/* Desktop Navigation */}
@@ -21,12 +25,12 @@ const NavLinks = () => {
             variant="ghost"
             className={
               name === "Hire me"
-                ? "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 cursor-pointer"
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 cursor-pointer animate-pulse text-white"
+                : activeLink === name
+                ? "text-blue-500 font-bold"
                 : "hover:text-blue-500 transition-color text-muted-foreground cursor-pointer"
             }
-            onClick={() => {
-              scrollToSection(name);
-            }}
+            onClick={() => handleNavLinkClick(name)}
           >
             {name}
           </Button>
@@ -62,13 +66,10 @@ const NavLinks = () => {
               <Button
                 key={index}
                 variant="ghost"
-                className={
-                  "w-full text-left hover:text-blue-500 transition-color text-muted-foreground cursor-pointer"
-                }
-                onClick={() => {
-                  scrollToSection(name);
-                  setIsMenuOpen(false); // Close menu after clicking
-                }}
+                className={`w-full text-left hover:text-blue-500 transition-color text-muted-foreground cursor-pointer ${
+                  activeLink === name ? "text-blue-500 font-bold" : ""
+                }`}
+                onClick={() => handleNavLinkClick(name)}
               >
                 {name}
               </Button>

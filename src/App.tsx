@@ -21,6 +21,7 @@ function App() {
         <Projects />
         <Contacts />
       </main>
+
       <Footer />
     </div>
   );

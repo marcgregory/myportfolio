@@ -2,9 +2,26 @@ import { motion } from "motion/react";
 import NavLinks from "./NavLinks";
 import { useScroll } from "@/hooks/useScroll";
 import logo from "../assets/avatar.png";
+import { useState } from "react";
+import { scrollToSection } from "@/utils/scrollToSection";
 
 const Navigation = () => {
   const scrolled = useScroll();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleNavLinkClick = (name: string) => {
+    if (name === "Hire me") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    scrollToSection(name);
+    setActiveLink(name);
+    setIsMenuOpen(false);
+  };
   return (
     <motion.div
       initial={{ y: -100 }}
@@ -21,7 +38,10 @@ const Navigation = () => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="cursor-pointer flex gap-2.5"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => {
+              setActiveLink("");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           >
             <img
               src={logo}
@@ -34,7 +54,12 @@ const Navigation = () => {
               MarcGregory
             </span>
           </motion.div>
-          <NavLinks />
+          <NavLinks
+            isMenuOpen={isMenuOpen}
+            toggleMenu={toggleMenu}
+            activeLink={activeLink}
+            handleNavLinkClick={handleNavLinkClick}
+          />
         </div>
       </div>
     </motion.div>
