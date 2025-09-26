@@ -141,8 +141,9 @@ const Contact = () => {
           >
             <Card className="h-full">
               <CardHeader>
-                <CardTitle>
-                  Send a Message{"    "}
+                <CardTitle className="flex items-center justify-between">
+                  <span>Send a Message</span>
+                  {"    "}
                   {isSuccess && (
                     <span className="text-green-500">✓message sent!</span>
                   )}
@@ -217,11 +218,12 @@ const Contact = () => {
                     onClick={handleSubmit(onSubmit)}
                     className="w-full bg-gradient-to-r cursor-pointer from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                   >
-                    <Send className="mr-2 h-4 w-4" />
                     {isSubmitting ? (
                       <Loader className="h-4 w-4 animate-spin" />
                     ) : (
-                      "Send Message"
+                      <>
+                        <Send className="mr-2 h-4 w-4" /> Send Message
+                      </>
                     )}
                   </Button>
                   {errors.root && (
