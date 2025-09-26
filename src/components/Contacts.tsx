@@ -11,12 +11,12 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const contactFormSchema = z.object({
-  firstName: z.string().min(2, { message: "First name required" }),
-  lastName: z.string().min(2, { message: "Last name required" }),
+  firstName: z.string().min(2, { message: "First name required." }),
+  lastName: z.string().min(2, { message: "Last name required." }),
   subject: z
     .string()
     .min(5, { message: "Subject must be at least 5 characters." }),
-  email: z.string().email(),
+  email: z.string().email("Invalid email address."),
   message: z
     .string()
     .min(10, { message: "Message must be at least 10 characters." }),
