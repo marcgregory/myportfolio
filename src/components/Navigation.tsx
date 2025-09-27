@@ -3,25 +3,21 @@ import NavLinks from "./NavLinks";
 import { useScroll } from "@/hooks/useScroll";
 import logo from "../assets/avatar.png";
 import { useState } from "react";
-import { scrollToSection } from "@/utils/scrollToSection";
 
-const Navigation = () => {
+import MobileNavLinks from "./MobileNavLinks";
+
+interface NavigationProps {
+  onChangeTheme?: (theme: "light" | "dark") => void;
+}
+
+const Navigation = ({ onChangeTheme }: NavigationProps) => {
   const scrolled = useScroll();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("");
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleNavLinkClick = (name: string) => {
-    if (name === "Hire me") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    scrollToSection(name);
-    setActiveLink(name);
-    setIsMenuOpen(false);
-  };
   return (
     <motion.div
       initial={{ y: -100 }}
@@ -37,11 +33,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="cursor-pointer flex gap-2.5"
-            onClick={() => {
-              setActiveLink("");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            className=" flex items-center justify-between gap-2"
           >
             <img
               src={logo}
@@ -57,11 +49,12 @@ const Navigation = () => {
           <NavLinks
             isMenuOpen={isMenuOpen}
             toggleMenu={toggleMenu}
-            activeLink={activeLink}
-            handleNavLinkClick={handleNavLinkClick}
+            setIsOpenMenu={setIsMenuOpen}
+            onChangeTheme={onChangeTheme}
           />
         </div>
       </div>
+      <MobileNavLinks isMenuOpen={isMenuOpen} setIsOpenMenu={setIsMenuOpen} />
     </motion.div>
   );
 };

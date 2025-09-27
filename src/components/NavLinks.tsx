@@ -1,21 +1,26 @@
-import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
-
-const navlinks = ["About", "Projects", "Contact", "Hire me"];
-
-type NavLinksProps = {
-  isMenuOpen: boolean;
-  toggleMenu: () => void;
-  activeLink: string;
-  handleNavLinkClick: (name: string) => void;
-};
+import { motion } from "motion/react";
+import { navlinks } from "@/utils/pageNames";
+import type { NavLinksProps } from "@/types/types";
+import ThemeToggle from "./ThemeToggle";
+import { scrollToSection } from "@/utils/scrollToSection";
+import { useState } from "react";
 
 const NavLinks = ({
   isMenuOpen,
   toggleMenu,
-  activeLink,
-  handleNavLinkClick,
+  setIsOpenMenu,
+  onChangeTheme,
 }: NavLinksProps) => {
+  const [activeLink, setActiveLink] = useState("");
+  const handleNavLinkClick = (name: string) => {
+    if (name === "Hire me") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    scrollToSection(name);
+    setActiveLink(name);
+    setIsOpenMenu?.(false);
+  };
   return (
     <>
       {/* Desktop Navigation */}
@@ -25,46 +30,61 @@ const NavLinks = ({
             key={index}
             variant="ghost"
             className={
-              name === "Hire me"
-                ? "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 cursor-pointer animate-pulse text-white"
-                : activeLink === name
+              activeLink === name
                 ? "text-blue-500 font-bold"
                 : "hover:text-blue-500 transition-color text-muted-foreground cursor-pointer"
             }
-            onClick={() => handleNavLinkClick(name)}
+            onClick={() => {
+              handleNavLinkClick?.(name);
+            }}
           >
             {name}
           </Button>
         ))}
+
+        <Button
+          onClick={() => handleNavLinkClick?.("Hire me")}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 cursor-pointer animate-pulse text-white"
+        >
+          Hire me
+        </Button>
       </div>
+      <ThemeToggle onChangeTheme={onChangeTheme} />
 
       {/* Mobile Navigation */}
-      <div className="flex md:hidden  relative">
+      <div className="md:hidden flex items-center">
         <Button
           variant="ghost"
           className="cursor-pointer text-white"
           size="icon"
           onClick={toggleMenu}
         >
-          <Menu />
+          {/* <Menu /> */}
+          <motion.svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            animate={isMenuOpen ? { rotate: 180 } : { rotate: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isMenuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </motion.svg>
         </Button>
-
-        {isMenuOpen && (
-          <div className="absolute right-0 top-8 mt-2 w-48 bg-gradient-to-r from-blue-500 to-purple-600  hover:from-blue-600 hover:to-purple-700 shadow-lg rounded-lg">
-            {navlinks.map((name, index) => (
-              <Button
-                key={index}
-                variant="ghost"
-                className={`w-full text-left hover:text-blue-500 transition-color text-muted-foreground cursor-pointer ${
-                  activeLink === name ? "text-blue-500 font-bold" : ""
-                }`}
-                onClick={() => handleNavLinkClick(name)}
-              >
-                {name}
-              </Button>
-            ))}
-          </div>
-        )}
       </div>
     </>
   );

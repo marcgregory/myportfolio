@@ -40,7 +40,7 @@ const About = () => {
         >
           <h2 className="mb-4 text-white text-[22px]">About Me</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Passionate developer with 5+ years of experience building scalable
+            Passionate developer with 2+ years of experience building scalable
             web applications
           </p>
         </motion.div>

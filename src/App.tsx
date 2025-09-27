@@ -5,8 +5,10 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Navigation from "./components/Navigation";
 import Projects from "./components/Projects";
+import useTheme from "./hooks/useTheme";
 
 function App() {
+  const { handleThemeChange } = useTheme();
   return (
     <div className="dark overflow-hidden min-h-screen relative bg-animated-gradient">
       {/* Animated gradient background layer */}
@@ -14,7 +16,7 @@ function App() {
       {/* Glass overlay for content readability */}
       <div className=" fixed inset-0 backdrop-blur-sm bg-background/20" />
       <BackgroundAnimation />
-      <Navigation />
+      <Navigation onChangeTheme={handleThemeChange} />
       <main className="relative z-10">
         <Hero />
         <About />
