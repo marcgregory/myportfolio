@@ -8,7 +8,7 @@ import Projects from "./components/Projects";
 
 function App() {
   return (
-    <div className="dark min-h-screen relative bg-animated-gradient">
+    <div className="dark overflow-hidden min-h-screen relative bg-animated-gradient">
       {/* Animated gradient background layer */}
       <div className="fixed inset-0 bg-animated-gradient opacity-90" />
       {/* Glass overlay for content readability */}
