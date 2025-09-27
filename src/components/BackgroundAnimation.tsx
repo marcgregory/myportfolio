@@ -200,7 +200,7 @@ const BackgroundAnimation = () => {
       ))}
 
       {/* Subtle tech grid pattern - simplified on mobile */}
-      {/* <div
+      <div
         className={`absolute inset-0 ${isMobile ? "opacity-5" : "opacity-15"}`}
         style={{
           backgroundImage: `
@@ -209,7 +209,7 @@ const BackgroundAnimation = () => {
              `,
           backgroundSize: isMobile ? "80px 80px" : "60px 60px",
         }}
-      /> */}
+      />
 
       {/* Radial gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
