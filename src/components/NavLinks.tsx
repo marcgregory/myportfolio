@@ -1,3 +1,4 @@
+import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
 
 const navlinks = ["About", "Projects", "Contact", "Hire me"];
@@ -38,30 +39,18 @@ const NavLinks = ({
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden relative">
+      <div className="flex md:hidden  relative">
         <Button
           variant="ghost"
           className="cursor-pointer text-white"
           size="icon"
           onClick={toggleMenu}
         >
-          <svg
-            className="h-6 w-6 text-wh"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <Menu />
         </Button>
 
         {isMenuOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-gradient-to-r from-blue-500 to-purple-600  hover:from-blue-600 hover:to-purple-700 shadow-lg rounded-lg">
+          <div className="absolute right-0 top-8 mt-2 w-48 bg-gradient-to-r from-blue-500 to-purple-600  hover:from-blue-600 hover:to-purple-700 shadow-lg rounded-lg">
             {navlinks.map((name, index) => (
               <Button
                 key={index}

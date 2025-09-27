@@ -65,7 +65,7 @@ const Projects = () => {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full hover:shadow-lg transition-shadow group">
+              <Card className="h-full hover:shadow-lg transition-shadow group cursor-pointer">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <ImageWithFallback
                     src={project.image}
