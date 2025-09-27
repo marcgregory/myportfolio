@@ -13,19 +13,6 @@ import {
   MongoIcon,
 } from "./TechIcons";
 
-const techIcons: React.ComponentType<React.SVGProps<SVGAElement>>[] = [
-  ReactIcon,
-  TypeScriptIcon,
-  NodeIcon,
-  NextIcon,
-  JavaScriptIcon,
-  PythonIcon,
-  VueIcon,
-  GitIcon,
-  DockerIcon,
-  MongoIcon,
-];
-
 const BackgroundAnimation = () => {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
 
@@ -42,17 +29,34 @@ const BackgroundAnimation = () => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const iconElements = Array.from({ length: 15 }, (_, i) => {
+  const techIcons: React.ComponentType<React.SVGProps<SVGAElement>>[] = [
+    ReactIcon,
+    TypeScriptIcon,
+    NodeIcon,
+    NextIcon,
+    JavaScriptIcon,
+    PythonIcon,
+    VueIcon,
+    GitIcon,
+    DockerIcon,
+    MongoIcon,
+  ];
+
+  // Reduce icons on mobile for performance
+  const isMobile = dimensions.width < 768;
+  const iconCount = isMobile ? 8 : 15;
+
+  const iconElements = Array.from({ length: iconCount }, (_, i) => {
     const IconComponent = techIcons[i % techIcons.length];
     return {
       id: i,
       Icon: IconComponent,
-      size: Math.random() * 20 + 30,
+      size: Math.random() * 20 + (isMobile ? 25 : 30), // Smaller on mobile
       initialX: Math.random() * dimensions.width,
       initialY: Math.random() * dimensions.height,
-      duration: Math.random() * 30 + 20,
+      duration: Math.random() * (isMobile ? 40 : 30) + (isMobile ? 30 : 20), // Slower on mobile
       delay: Math.random() * 5,
-      opacity: Math.random() * 0.4 + 0.4,
+      opacity: Math.random() * 0.4 + (isMobile ? 0.3 : 0.4), // Lower opacity on mobile
       color: [
         "text-blue-500",
         "text-purple-500",
@@ -66,33 +70,39 @@ const BackgroundAnimation = () => {
     };
   });
 
-  const floatingShapes = Array.from({ length: 6 }, (_, i) => ({
+  const shapeCount = isMobile ? 3 : 6;
+  const floatingShapes = Array.from({ length: shapeCount }, (_, i) => ({
     id: i,
-    size: Math.random() * 80 + 40,
+    size: Math.random() * (isMobile ? 60 : 80) + (isMobile ? 30 : 40),
     initialX: Math.random() * dimensions.width,
     initialY: Math.random() * dimensions.height,
-    duration: Math.random() * 25 + 15,
+    duration: Math.random() * (isMobile ? 35 : 25) + (isMobile ? 20 : 15),
     delay: Math.random() * 3,
   }));
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-1">
-      {/* Floating gradient orbs */}
+      {/* Floating gradient orbs - reduced on mobile */}
       <div className="absolute inset-0">
-        <div className="floating-orbs absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-indigo-500/30 to-purple-600/30 rounded-full blur-3xl" />
+        <div className="floating-orb absolute top-1/4 left-1/4 w-48 h-48 md:w-64 md:h-64 bg-gradient-to-r from-indigo-500/30 to-purple-600/30 rounded-full blur-2xl md:blur-3xl" />
         <div
-          className="floating-orb absolute top-3/4 right-1/4 w-80 h-80 bg-gradient-to-r from-violet-500/25 to-fuchsia-600/25 rounded-full blur-3xl"
+          className="floating-orb absolute top-3/4 right-1/4 w-56 h-56 md:w-80 md:h-80 bg-gradient-to-r from-violet-500/25 to-fuchsia-600/25 rounded-full blur-2xl md:blur-3xl"
           style={{ animationDelay: "2s" }}
         />
-        <div
-          className="floating-orb absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-r from-blue-600/25 to-cyan-500/25 rounded-full blur-3xl"
-          style={{ animationDelay: "4s" }}
-        />
-        <div
-          className="floating-orb absolute top-1/3 right-1/3 w-56 h-56 bg-gradient-to-r from-purple-600/20 to-pink-500/20 rounded-full blur-3xl"
-          style={{ animationDelay: "6s" }}
-        />
+        {!isMobile && (
+          <>
+            <div
+              className="floating-orb absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-r from-blue-600/25 to-cyan-500/25 rounded-full blur-3xl"
+              style={{ animationDelay: "4s" }}
+            />
+            <div
+              className="floating-orb absolute top-1/3 right-1/3 w-56 h-56 bg-gradient-to-r from-purple-600/20 to-pink-500/20 rounded-full blur-3xl"
+              style={{ animationDelay: "6s" }}
+            />
+          </>
+        )}
       </div>
+
       {/* Tech background pattern */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"
@@ -100,6 +110,7 @@ const BackgroundAnimation = () => {
           backgroundImage: `url('https://images.unsplash.com/photo-1739343338040-2dae68f6bdf5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHRlY2hub2xvZ3klMjBiYWNrZ3JvdW5kJTIwZGFya3xlbnwxfHx8fDE3NTg4NjY1OTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`,
         }}
       />
+
       {/* Floating Tech Icons */}
       {iconElements.map((icon) => (
         <motion.div
@@ -138,6 +149,7 @@ const BackgroundAnimation = () => {
           <icon.Icon style={{ width: icon.size, height: icon.size }} />
         </motion.div>
       ))}
+
       {/* Abstract Floating Shapes */}
       {floatingShapes.map((shape) => (
         <motion.div
@@ -186,15 +198,16 @@ const BackgroundAnimation = () => {
           )}
         </motion.div>
       ))}
-      {/* Subtle tech grid pattern */}
+
+      {/* Subtle tech grid pattern - simplified on mobile */}
       <div
-        className="absolute inset-0 opacity-15"
+        className={`absolute inset-0 ${isMobile ? "opacity-5" : "opacity-15"}`}
         style={{
           backgroundImage: `
                linear-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px),
                linear-gradient(90deg, rgba(99, 102, 241, 0.15) 1px, transparent 1px)
              `,
-          backgroundSize: "60px 60px",
+          backgroundSize: isMobile ? "80px 80px" : "60px 60px",
         }}
       />
 
