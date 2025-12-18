@@ -52,7 +52,7 @@ const Projects = () => {
 
     {
       id: 3,
-      title: "Asia SEO",
+      title: "Asia CEO",
       description:
         "Revamped the Asia CEO website by upgrading Next.js from version 13 to 14 using the App Router. I contributed by fixing bugs, migrating pages to the new app folder structure, updating components to leverage Next.js 14 features, and improving performance and SEO best practices.",
       image: "./projects/asiaceo.png",
