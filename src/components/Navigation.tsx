@@ -2,9 +2,10 @@ import { motion } from "motion/react";
 import NavLinks from "./NavLinks";
 import { useScroll } from "@/hooks/useScroll";
 import logo from "../assets/avatar.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MobileNavLinks from "./MobileNavLinks";
+import ThemeToggle from "./ThemeToggle";
 
 interface NavigationProps {
   onChangeTheme?: (theme: "light" | "dark") => void;
@@ -13,10 +14,24 @@ interface NavigationProps {
 const Navigation = ({ onChangeTheme }: NavigationProps) => {
   const scrolled = useScroll();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    // Function to check window width
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // change breakpoint as needed
+    };
+
+    handleResize(); // initial check
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <motion.div
@@ -54,6 +69,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
           />
         </div>
       </div>
+      {isMobile && <ThemeToggle onChangeTheme={onChangeTheme} />}
       <MobileNavLinks isMenuOpen={isMenuOpen} setIsOpenMenu={setIsMenuOpen} />
     </motion.div>
   );

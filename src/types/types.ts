@@ -5,4 +5,5 @@ export type NavLinksProps = {
   onChangeTheme?: (theme: "light" | "dark") => void;
   handleNavLinkClick?: (name: string) => void;
   setIsOpenMenu?: (isOpen: boolean) => void;
+  isMobile?: boolean;
 };

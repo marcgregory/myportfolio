@@ -48,7 +48,7 @@ const ThemeToggle = ({ onChangeTheme, className = "" }: ThemeToggleProps) => {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className={`absolute top-3.5 right-14 md:top-4 md:right-26 cursor-pointer  overflow-hidden hover:bg-accent/50 transition-colors ${className}`}
+      className={`absolute top-3.5 right-14 md:top-0 md:-right-3 cursor-pointer  overflow-hidden hover:bg-accent/50 transition-colors ${className}`}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       <motion.div

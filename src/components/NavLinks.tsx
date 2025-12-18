@@ -11,6 +11,7 @@ const NavLinks = ({
   toggleMenu,
   setIsOpenMenu,
   onChangeTheme,
+  isMobile,
 }: NavLinksProps) => {
   const [activeLink, setActiveLink] = useState("");
   const handleNavLinkClick = (name: string) => {
@@ -24,7 +25,7 @@ const NavLinks = ({
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center space-x-8">
+      <div className="hidden md:relative md:flex items-center space-x-8">
         {navlinks.map((name, index) => (
           <Button
             key={index}
@@ -48,8 +49,8 @@ const NavLinks = ({
         >
           Hire me
         </Button>
+        {!isMobile && <ThemeToggle onChangeTheme={onChangeTheme} />}
       </div>
-      <ThemeToggle onChangeTheme={onChangeTheme} />
 
       {/* Mobile Navigation */}
       <div className="md:hidden flex items-center">
