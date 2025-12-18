@@ -7,7 +7,7 @@
   --font-size: 16px;
   --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --background-overlay: rgba(255, 255, 255, 0.95);
-  --foreground: oklch(0.145 0 0);
+  --foreground: #4c63d2;
   --card: rgba(255, 255, 255, 0.9);
   --card-foreground: oklch(0.145 0 0);
   --popover: rgba(255, 255, 255, 0.95);

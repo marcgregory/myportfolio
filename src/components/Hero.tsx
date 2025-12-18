@@ -46,7 +46,7 @@ const Hero = () => {
           >
             <Button
               size="lg"
-              className="bg-gradient-to-r cursor-pointer from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              className="bg-gradient-to-r cursor-pointer text-white from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
             >
               <Download className="mr-2 h-4 w-4 text-mute" />
               Download CV

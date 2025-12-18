@@ -6,36 +6,114 @@ import { ExternalLink, Github } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
 
 const Projects = () => {
+  // const projects = [
+  //   {
+  //     title: "Volenday Staffing",
+  //     description:
+  //       "A staffing solutions platform built with Next.js and React, integrating the Volenday SDK for seamless workforce management. I worked on developing responsive UI with Material UI, GSAP animations, and styled components to ensure a polished and interactive user experience.",
+
+  //     image: "./projects/volendaystaffing.png",
+  //     technologies: [
+  //       "Next.js",
+  //       "React",
+  //       "Volenday SDK",
+  //       "GSAP",
+  //       "Material UI",
+  //       "Styled Components",
+  //       "CSS",
+  //     ],
+  //     github: "#",
+  //     live: "https://volendaystaffing.com/",
+  //   },
+  //   {
+  //     title: "Lending App",
+  //     description:
+  //       "LendAmi is a peer-to-peer lending platform built on WordPress with Elementor, integrated with AWS, Bux API, and Movider. I contributed by fixing styling issues, improving responsiveness, and optimizing UI components for a better user experience.",
+
+  //     image: "./projects/lendami.png",
+
+  //     technologies: [
+  //       "Wordpress - Elementor",
+  //       "AWS",
+  //       "Bux",
+  //       "React",
+  //       "Movider",
+  //       "CSS",
+  //       "i18n",
+  //     ],
+  //     github: "#",
+  //     live: "https://lendami.com.ph/",
+  //   },
+  //   {
+  //     title: "Asia Ceo",
+  //     description:
+  //       "Asia CEO Forum is a national business event platform built with Next.js, React, Framer Motion, and Ant Design. I helped implement smooth animations and responsive layouts, ensuring the site is visually appealing and easy to navigate.",
+
+  //     image: "./projects/asiaceo.png",
+  //     technologies: ["Next.js", "React", "Framer Motion", "Ant Design", "CSS"],
+  //     github: "#",
+  //     live: "https://www.asia-ceo.org/",
+  //   },
+  // ];
+
   const projects = [
     {
-      title: "E-Commerce Dashboard",
+      title: "Volenday Staffing",
       description:
-        "A comprehensive admin dashboard for e-commerce platforms with real-time analytics, inventory management, and user insights.",
-      image:
-        "https://images.unsplash.com/photo-1649451844931-57e22fc82de3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXZlbG9wbWVudCUyMHByb2plY3QlMjBkYXNoYm9hcmR8ZW58MXx8fHwxNzU4NzczNjE2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL"],
+        "A staffing solutions platform built with Next.js and React, integrating the Volenday SDK. I contributed by fixing bugs, developing responsive UI with Material UI and styled components, and adding GSAP animations for a polished, interactive user experience.",
+      image: "./projects/volendaystaffing.png",
+      technologies: [
+        "Next.js",
+        "React",
+        "Volenday SDK",
+        "GSAP",
+        "Material UI",
+        "Styled Components",
+        "CSS",
+        "Git Kraken",
+      ],
       github: "#",
-      live: "#",
+      live: "https://volendaystaffing.com/",
     },
     {
-      title: "Mobile Banking App",
+      title: "Lending App",
       description:
-        "Secure and intuitive mobile banking application with biometric authentication, transaction history, and budget tracking features.",
-      image:
-        "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHAlMjBkZXNpZ24lMjBpbnRlcmZhY2V8ZW58MXx8fHwxNzU4ODE1Mzk0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      technologies: ["React Native", "Express.js", "MongoDB", "JWT"],
+        "LendAmi is a peer-to-peer lending platform built on WordPress with Elementor, integrated with AWS, Bux API, Movider, and i18n. I contributed by fixing bugs, creating API endpoints, setting up cron jobs with EventBridge, implementing email templates using SES, integrating SMS functionality via Movider, and improving UI responsiveness.",
+      image: "./projects/lendami.png",
+      technologies: [
+        "Wordpress - Elementor",
+        "AWS",
+        "Bux",
+        "React",
+        "Movider",
+        "CSS",
+        "i18n",
+        "CSS",
+        "Styled Components",
+        "Material UI",
+        "Postgre SQL",
+        "Git Kraken",
+      ],
       github: "#",
-      live: "#",
+      live: "https://lendami.com.ph/",
     },
+
     {
-      title: "SaaS Landing Page",
+      title: "Asia SEO",
       description:
-        "Modern, responsive landing page for a SaaS platform with animated components, pricing tables, and integrated contact forms.",
-      image:
-        "https://images.unsplash.com/photo-1642132652798-ae887edb9e9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWJzaXRlJTIwbGFuZGluZyUyMHBhZ2V8ZW58MXx8fHwxNzU4ODI4NDUwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      technologies: ["Next.js", "Tailwind CSS", "Motion", "Vercel"],
+        "Revamped the Asia CEO website by upgrading Next.js from version 13 to 14 using the App Router. I contributed by fixing bugs, migrating pages to the new app folder structure, updating components to leverage Next.js 14 features, and improving performance and SEO best practices.",
+      image: "./projects/asiaceo.png",
+      technologies: [
+        "Next.js",
+        "React",
+        "Material UI",
+        "Framer Motion",
+        "CSS",
+        "Volenday SDK",
+        "Git Kraken",
+      ],
       github: "#",
-      live: "#",
+      live: "https://asia-ceo.org/",
     },
   ];
 
@@ -49,7 +127,7 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="mb-4 text-white md:text-[22px]">Featured Projects</h2>
+          <h2 className="mb-4 text-white md:text-[22px]">Featured Work</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A showcase of my recent work spanning web applications , and SaaS
             platforms
@@ -65,7 +143,7 @@ const Projects = () => {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full hover:shadow-lg transition-shadow group cursor-pointer">
+              <Card className="h-full hover:shadow-lg transition-shadow group">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <ImageWithFallback
                     src={project.image}
@@ -91,7 +169,17 @@ const Projects = () => {
                       <Github className="mr-2 h-4 w-4" />
                       Code
                     </Button>
-                    <Button size="sm" className="flex-1 ">
+                    <Button
+                      size="sm"
+                      className="flex-1 cursor-pointer hover:text-blue-500"
+                      onClick={() =>
+                        window.open(
+                          project.live,
+                          "_blank",
+                          "noopener,noreferrer"
+                        )
+                      }
+                    >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Live Demo
                     </Button>
