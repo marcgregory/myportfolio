@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef, memo } from "react";
 import {
   ReactIcon,
   TypeScriptIcon,
@@ -29,7 +29,7 @@ const BackgroundAnimation = () => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const techIcons: React.ComponentType<React.SVGProps<SVGAElement>>[] = [
+  const techIcons: React.ComponentType<React.SVGProps<SVGSVGElement>>[] = [
     ReactIcon,
     TypeScriptIcon,
     NodeIcon,
@@ -44,41 +44,81 @@ const BackgroundAnimation = () => {
 
   // Reduce icons on mobile for performance
   const isMobile = dimensions.width < 768;
-  const iconCount = isMobile ? 8 : 15;
+  // Lower counts to reduce animation workload
+  const iconCount = isMobile ? 6 : 12;
 
-  const iconElements = Array.from({ length: iconCount }, (_, i) => {
-    const IconComponent = techIcons[i % techIcons.length];
-    return {
-      id: i,
-      Icon: IconComponent,
-      size: Math.random() * 20 + (isMobile ? 25 : 30), // Smaller on mobile
-      initialX: Math.random() * dimensions.width,
-      initialY: Math.random() * dimensions.height,
-      duration: Math.random() * (isMobile ? 40 : 30) + (isMobile ? 30 : 20), // Slower on mobile
-      delay: Math.random() * 5,
-      opacity: Math.random() * 0.4 + (isMobile ? 0.3 : 0.4), // Lower opacity on mobile
-      color: [
-        "text-blue-500",
-        "text-purple-500",
-        "text-green-500",
-        "text-yellow-500",
-        "text-red-500",
-        "text-indigo-500",
-        "text-pink-500",
-        "text-cyan-500",
-      ][i % 8],
-    };
-  });
+  // Seeded PRNG so values are stable across renders
+  const seedRef = useRef<number>(Math.floor(Math.random() * 1e9));
+  const rng = () => {
+    // simple LCG
+    seedRef.current = (seedRef.current * 1664525 + 1013904223) >>> 0;
+    return seedRef.current / 2 ** 32;
+  };
 
-  const shapeCount = isMobile ? 3 : 6;
-  const floatingShapes = Array.from({ length: shapeCount }, (_, i) => ({
-    id: i,
-    size: Math.random() * (isMobile ? 60 : 80) + (isMobile ? 30 : 40),
-    initialX: Math.random() * dimensions.width,
-    initialY: Math.random() * dimensions.height,
-    duration: Math.random() * (isMobile ? 35 : 25) + (isMobile ? 20 : 15),
-    delay: Math.random() * 3,
-  }));
+  // Memoize elements so they only regenerate on resize / breakpoint change
+  const iconElements = useMemo(() => {
+    return Array.from({ length: iconCount }, (_, i) => {
+      const IconComponent = techIcons[i % techIcons.length];
+      const initialX = Math.floor(rng() * dimensions.width);
+      const initialY = Math.floor(rng() * dimensions.height);
+      const dx1 = Math.floor((rng() - 0.5) * 400);
+      const dx2 = Math.floor((rng() - 0.5) * 600);
+      const dy1 = Math.floor((rng() - 0.5) * 300);
+      const dy2 = Math.floor((rng() - 0.5) * 400);
+      const duration = rng() * (isMobile ? 40 : 30) + (isMobile ? 30 : 20);
+      const delay = rng() * 5;
+      return {
+        id: i,
+        Icon: IconComponent,
+        size: Math.floor(rng() * 20) + (isMobile ? 25 : 30),
+        initialX,
+        initialY,
+        animateX: [initialX, initialX + dx1, initialX + dx2, initialX],
+        animateY: [initialY, initialY + dy1, initialY + dy2, initialY],
+        rotate: [0, 180, 360, 0],
+        scale: [0.8, 1.1, 0.9, 0.8],
+        duration,
+        delay,
+        opacity: rng() * 0.4 + (isMobile ? 0.3 : 0.4),
+        color: [
+          "text-blue-500",
+          "text-purple-500",
+          "text-green-500",
+          "text-yellow-500",
+          "text-red-500",
+          "text-indigo-500",
+          "text-pink-500",
+          "text-cyan-500",
+        ][i % 8],
+      };
+    });
+    // regenerate only when dimensions or breakpoint changes
+  }, [dimensions.width, dimensions.height, isMobile]);
+
+  const shapeCount = isMobile ? 2 : 4;
+  const floatingShapes = useMemo(() => {
+    return Array.from({ length: shapeCount }, (_, i) => {
+      const initialX = Math.floor(rng() * dimensions.width);
+      const initialY = Math.floor(rng() * dimensions.height);
+      const dx = Math.floor((rng() - 0.5) * 300);
+      const dy = Math.floor((rng() - 0.5) * 200);
+      const size =
+        Math.floor(rng() * (isMobile ? 60 : 80)) + (isMobile ? 30 : 40);
+      const duration = rng() * (isMobile ? 35 : 25) + (isMobile ? 20 : 15);
+      const delay = rng() * 3;
+      return {
+        id: i,
+        size,
+        initialX,
+        initialY,
+        animateX: [initialX, initialX + dx, initialX],
+        animateY: [initialY, initialY + dy, initialY],
+        rotate: [0, 360, 0],
+        duration,
+        delay,
+      };
+    });
+  }, [dimensions.width, dimensions.height, isMobile]);
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-1">
@@ -124,20 +164,10 @@ const BackgroundAnimation = () => {
             scale: 0.8,
           }}
           animate={{
-            x: [
-              icon.initialX,
-              icon.initialX + (Math.random() - 0.5) * 400,
-              icon.initialX + (Math.random() - 0.5) * 600,
-              icon.initialX,
-            ],
-            y: [
-              icon.initialY,
-              icon.initialY + (Math.random() - 0.5) * 300,
-              icon.initialY + (Math.random() - 0.5) * 400,
-              icon.initialY,
-            ],
-            rotate: [0, 180, 360, 0],
-            scale: [0.8, 1.1, 0.9, 0.8],
+            x: icon.animateX,
+            y: icon.animateY,
+            rotate: icon.rotate,
+            scale: icon.scale,
           }}
           transition={{
             duration: icon.duration,
@@ -161,17 +191,9 @@ const BackgroundAnimation = () => {
             rotate: 0,
           }}
           animate={{
-            x: [
-              shape.initialX,
-              shape.initialX + (Math.random() - 0.5) * 300,
-              shape.initialX,
-            ],
-            y: [
-              shape.initialY,
-              shape.initialY + (Math.random() - 0.5) * 200,
-              shape.initialY,
-            ],
-            rotate: [0, 360, 0],
+            x: shape.animateX,
+            y: shape.animateY,
+            rotate: shape.rotate,
           }}
           transition={{
             duration: shape.duration,
@@ -217,4 +239,4 @@ const BackgroundAnimation = () => {
   );
 };
 
-export default BackgroundAnimation;
+export default memo(BackgroundAnimation);

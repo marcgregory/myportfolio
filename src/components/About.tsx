@@ -11,10 +11,6 @@ const data = [
     id: 2,
     item: " My approach combines technical excellence with user-centered design, ensuring that every solution not only works flawlessly but also provides an exceptional user experience.",
   },
-  {
-    id: 3,
-    item: "When I'm not coding, you can find me contributing to open-source projects, learning new technologies, or sharing knowledge through technical writing and mentoring.",
-  },
 ];
 
 const About = () => {

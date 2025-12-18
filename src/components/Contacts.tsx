@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Mail, Phone, MapPin, Send, Loader } from "lucide-react";
 import { emailClient } from "@/email/client-email";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -35,26 +35,29 @@ const Contact = () => {
     resolver: zodResolver(contactFormSchema),
   });
 
-  const onSubmit = async (data: z.infer<typeof contactFormSchema>) => {
-    try {
-      setIsSuccess(false);
-      const response = await emailClient(
-        data.firstName + " " + data.lastName,
-        data.subject,
-        data.email,
-        data.message
-      );
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof contactFormSchema>) => {
+      try {
+        setIsSuccess(false);
+        const response = await emailClient(
+          data.firstName + " " + data.lastName,
+          data.subject,
+          data.email,
+          data.message
+        );
 
-      if (response.status === 200) {
-        setIsSuccess(true);
+        if (response.status === 200) {
+          setIsSuccess(true);
+        }
+        reset();
+      } catch {
+        setError("root", {
+          message: "Something went wrong. Please try again later.",
+        });
       }
-      reset();
-    } catch {
-      setError("root", {
-        message: "Something went wrong. Please try again later.",
-      });
-    }
-  };
+    },
+    [reset, setError]
+  );
 
   return (
     <section className="py-20 px-4 relative z-10" id="contact">
@@ -216,7 +219,7 @@ const Contact = () => {
                   <Button
                     disabled={isSubmitting}
                     onClick={handleSubmit(onSubmit)}
-                    className="w-full bg-gradient-to-r cursor-pointer from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                    className="w-full bg-gradient-to-r cursor-pointer text-white from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                   >
                     {isSubmitting ? (
                       <Loader className="h-4 w-4 animate-spin" />

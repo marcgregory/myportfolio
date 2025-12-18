@@ -91,7 +91,7 @@ const Projects = () => {
                       <Github className="mr-2 h-4 w-4" />
                       Code
                     </Button>
-                    <Button size="sm" className="flex-1">
+                    <Button size="sm" className="flex-1 ">
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Live Demo
                     </Button>

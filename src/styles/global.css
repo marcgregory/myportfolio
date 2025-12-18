@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --font-size: 16px;
@@ -13,7 +13,7 @@
   --popover: rgba(255, 255, 255, 0.95);
   --popover-foreground: oklch(0.145 0 0);
   --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --primary-foreground: oklch(1 0 0);
+  --primary-foreground: oklch(0.623 0.214 259.815);
   --secondary: rgba(102, 126, 234, 0.1);
   --secondary-foreground: #4c63d2;
   --muted: rgba(102, 126, 234, 0.05);
@@ -90,7 +90,7 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
