@@ -28,7 +28,7 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "Lending App",
+      title: "Lendami App",
       description:
         "LendAmi is a peer-to-peer lending platform built on WordPress with Elementor, integrated with AWS, Bux API, Movider, and i18n. I contributed by fixing bugs, creating API endpoints, setting up cron jobs with EventBridge, implementing email templates using SES, integrating SMS functionality via Movider, and improving UI responsiveness.",
       image: "./projects/lendami.png",
