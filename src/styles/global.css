@@ -103,6 +103,33 @@
     font: inherit;
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    background-color: transparent !important;
+    background-image: none !important;
+    caret-color: var(--foreground) !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.7) inset !important;
+    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.7) inset !important;
+    transition: background-color 999999s ease-out 0s;
+  }
+
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill,
+  .dark textarea:-webkit-autofill:hover,
+  .dark textarea:-webkit-autofill:focus {
+    caret-color: #f8fbff !important;
+    -webkit-text-fill-color: #f8fbff !important;
+    -webkit-box-shadow: 0 0 0 1000px #1b2031 inset !important;
+    box-shadow: 0 0 0 1000px #1b2031 inset !important;
+  }
+
   a {
     color: inherit;
     cursor: pointer;
@@ -162,6 +189,44 @@
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
 }
 
+#contact input,
+#contact textarea {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  -webkit-text-fill-color: var(--foreground);
+}
+
+.dark #contact input,
+.dark #contact textarea {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+}
+
+.dark #contact input:focus,
+.dark #contact input:focus-visible,
+.dark #contact textarea:focus,
+.dark #contact textarea:focus-visible {
+  border-color: rgba(139, 92, 246, 0.72) !important;
+}
+
+.dark #contact input:not(:focus):not(:focus-visible),
+.dark #contact textarea:not(:focus):not(:focus-visible) {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  outline-color: transparent !important;
+}
+
+.dark #contact input:-webkit-autofill,
+.dark #contact input:-webkit-autofill:hover,
+.dark #contact input:-webkit-autofill:focus,
+.dark #contact textarea:-webkit-autofill,
+.dark #contact textarea:-webkit-autofill:hover,
+.dark #contact textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f8fbff !important;
+  -webkit-box-shadow: 0 0 0 1000px #1b2031 inset !important;
+  box-shadow: 0 0 0 1000px #1b2031 inset !important;
+}
+
 .text-gradient {
   background: none;
   color: #0f766e;
@@ -172,6 +237,77 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+@keyframes text-tide-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 0 rgba(20, 184, 166, 0);
+  }
+
+  38% {
+    background-position: 62% 50%;
+    text-shadow:
+      0 1px 10px rgba(20, 184, 166, 0.2),
+      0 0 18px rgba(8, 145, 178, 0.16);
+  }
+
+  72% {
+    background-position: 100% 50%;
+    text-shadow:
+      0 -1px 10px rgba(8, 145, 178, 0.2),
+      0 0 22px rgba(20, 184, 166, 0.14);
+  }
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.sr-only):hover,
+:where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):focus-visible {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    #0f766e 24%,
+    #0891b2 42%,
+    currentColor 58%,
+    #14b8a6 78%,
+    currentColor 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-tide-flow 1.9s ease-in-out infinite;
+}
+
+.dark :where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.sr-only):hover,
+.dark :where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):focus-visible {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    #c084fc 22%,
+    #38bdf8 43%,
+    currentColor 58%,
+    #a78bfa 78%,
+    currentColor 100%
+  );
+}
+
+.text-gradient:hover,
+.text-gradient:focus-visible {
+  background: linear-gradient(100deg, #0f766e 0%, #0891b2 32%, #14b8a6 58%, #0f766e 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-tide-flow 1.9s ease-in-out infinite;
+}
+
+.dark .text-gradient:hover,
+.dark .text-gradient:focus-visible {
+  background: linear-gradient(100deg, #f0abfc 0%, #38bdf8 34%, #a78bfa 62%, #f0abfc 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .button-gradient {

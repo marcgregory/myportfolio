@@ -134,6 +134,7 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] xl:grid-cols-[minmax(420px,1.1fr)_minmax(320px,0.9fr)]">
             <form
               onSubmit={handleSubmit(onSubmit)}
+              autoComplete="off"
               className="min-w-0 space-y-4 border-slate-900/10 p-5 md:p-8 dark:border-white/10 lg:border-r lg:pr-9 xl:pr-10"
             >
               <div className="mb-2 flex items-center justify-between gap-4">
@@ -153,7 +154,8 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
                     {...register("firstName")}
                     name="firstName"
                     placeholder="First name"
-                    autoComplete="given-name"
+                    autoComplete="new-password"
+                    data-lpignore="true"
                     className="h-12 border-slate-900/10 bg-white/70 text-foreground placeholder:text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-500"
                   />
                   <FieldError message={errors.firstName?.message} />
@@ -162,7 +164,8 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
                   <Input
                     {...register("lastName")}
                     placeholder="Last name"
-                    autoComplete="family-name"
+                    autoComplete="new-password"
+                    data-lpignore="true"
                     className="h-12 border-slate-900/10 bg-white/70 text-foreground placeholder:text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-500"
                   />
                   <FieldError message={errors.lastName?.message} />
@@ -173,7 +176,8 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
                 <Input
                   {...register("email")}
                   placeholder="Email address"
-                  autoComplete="email"
+                  autoComplete="new-password"
+                  data-lpignore="true"
                   className="h-12 border-slate-900/10 bg-white/70 text-foreground placeholder:text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-500"
                 />
                 <FieldError message={errors.email?.message} />
@@ -183,7 +187,8 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
                 <Input
                   {...register("subject")}
                   placeholder="Subject"
-                  autoComplete="off"
+                  autoComplete="new-password"
+                  data-lpignore="true"
                   className="h-12 border-slate-900/10 bg-white/70 text-foreground placeholder:text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-500"
                 />
                 <FieldError message={errors.subject?.message} />
@@ -193,7 +198,8 @@ const Contacts = ({ onStartConversation }: ContactsProps) => {
                 <Textarea
                   {...register("message")}
                   placeholder="Your message"
-                  autoComplete="off"
+                  autoComplete="new-password"
+                  data-lpignore="true"
                   className="min-h-36 resize-none border-slate-900/10 bg-white/70 text-foreground placeholder:text-muted-foreground dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-500"
                 />
                 <FieldError message={errors.message?.message} />
