@@ -1,34 +1,59 @@
-import { Button } from "./ui/button";
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/marcgregory/myportfolio",
+    icon: Github,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/marc-gregory-t-866623310/",
+    icon: Linkedin,
+  },
+  {
+    label: "Twitter",
+    href: "https://twitter.com/",
+    icon: Twitter,
+  },
+  {
+    label: "Email",
+    href: "mailto:marcgregory.developer@gmail.com",
+    icon: Mail,
+  },
+];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="relative z-10 py-8 px-4 border-t border-border/30 glass">
-      <Button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="fixed bottom-8 right-2 sm:right-8 z-50 cursor-pointer bg-gradient-to-r from-blue-500 to-purple-600 text-white border-none p-4 rounded-full shadow-lg transition-all animate-pulse"
-      >
-        <svg
-          className="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 15l7-7 7 7"
-          />
-        </svg>
-      </Button>
-      <div className="max-w-6xl mx-auto text-center">
-        <p className="text-muted-foreground">
-          {" "}
-          © {currentYear} Marc Gregory. Built with React, TypeScript, and
-          Tailwind.
+    <footer className="relative z-10 border-t border-white/10 py-9">
+      <div className="site-shell flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-3">
+          <span className="text-gradient text-2xl font-black tracking-[-0.08em]">
+            MG
+          </span>
+          <span className="text-sm font-bold text-white">Marc Gregory</span>
+        </div>
+
+        <p className="text-sm text-slate-500">
+          &copy; {currentYear} All rights reserved.
         </p>
+
+        <div className="flex items-center gap-5">
+          {socialLinks.map(({ label, href, icon: Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+              aria-label={label}
+              className="rounded-full p-2 text-slate-400 transition duration-300 hover:-translate-y-0.5 hover:bg-violet-300/10 hover:text-white hover:shadow-[0_0_24px_rgba(124,58,237,0.22)]"
+            >
+              <Icon className="size-5" />
+            </a>
+          ))}
+        </div>
       </div>
     </footer>
   );

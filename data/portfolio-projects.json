@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Volenday Staffing",
+    "category": "Web Application",
+    "description": "Modern staffing platform connecting talent with opportunities worldwide.",
+    "image": "/projects/volendaystaffing.png",
+    "techStack": ["Next.js", "React", "TypeScript"],
+    "liveUrl": "https://volendaystaffing.com/"
+  },
+  {
+    "title": "LendAmi App",
+    "category": "Web Application",
+    "description": "Peer-to-peer lending platform with secure transaction workflows.",
+    "image": "/projects/lendami.png",
+    "techStack": ["React", "Node.js", "PostgreSQL"],
+    "liveUrl": "https://lendami.com.ph/"
+  },
+  {
+    "title": "Asia CEO Website",
+    "category": "Corporate Website",
+    "description": "Corporate publication website rebuilt for performance and SEO.",
+    "image": "/projects/asiaceo.png",
+    "techStack": ["Next.js", "Tailwind CSS", "MDX"],
+    "liveUrl": "https://asia-ceo.org/"
+  },
+  {
+    "title": "Sweet Memo Keeper",
+    "category": "Productivity App",
+    "description": "A polished memory keeper for saving heartfelt notes, milestones, and moments.",
+    "image": "/projects/sweet-memo-keeper.png",
+    "techStack": ["React", "Lovable", "Tailwind CSS"],
+    "liveUrl": "https://sweet-memo-keeper.lovable.app/"
+  },
+  {
+    "title": "MusicSheet Studio",
+    "category": "Creative Tool",
+    "description": "Music notation workspace for composing, previewing, and organizing sheet music.",
+    "image": "/projects/musicsheet-studio.png",
+    "techStack": ["Next.js", "Vercel", "TypeScript"],
+    "liveUrl": "https://musicsheetstudio.vercel.app/"
+  }
+]
