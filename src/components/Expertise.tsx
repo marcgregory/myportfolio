@@ -33,7 +33,7 @@ const technologies = [
 
 const Expertise = () => {
   return (
-    <section id="about" className="relative z-10 pb-20">
+    <section id="about" className="relative z-10 -mt-4 pb-20 pt-2">
       <motion.div
         initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}

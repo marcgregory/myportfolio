@@ -24,7 +24,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden pb-16 pt-28 md:pt-32"
+      className="relative min-h-screen overflow-x-hidden pb-10 pt-28 md:pt-32"
     >
       <HeroScene />
       <div className="site-shell relative z-10 grid min-h-[calc(100vh-8rem)] items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">

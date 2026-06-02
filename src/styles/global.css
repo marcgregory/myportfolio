@@ -148,7 +148,7 @@
 .noise-layer {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   opacity: 0.13;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
@@ -159,18 +159,32 @@
   margin-inline: auto;
 }
 
-.site-backdrop {
+.site-landscape-backdrop {
   position: fixed;
   inset: 0;
-  z-index: -10;
-  background: #f7f9ff;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--background);
+  background-image: url("/backgrounds/lower-sections-light.jpg");
+  background-attachment: fixed;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.dark .site-backdrop {
-  background:
-    radial-gradient(circle at 22% 8%, rgba(124, 58, 237, 0.24), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(14, 165, 233, 0.16), transparent 30%),
-    linear-gradient(180deg, #050816 0%, #070b1d 45%, #050716 100%);
+.dark .site-landscape-backdrop {
+  background-image: url("/backgrounds/lower-sections-dark.jpg");
+}
+
+.hero-scene-layer {
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%),
+    radial-gradient(circle at 66% 45%, #000 0%, #000 54%, transparent 86%);
+  mask-image:
+    linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%),
+    radial-gradient(circle at 66% 45%, #000 0%, #000 54%, transparent 86%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .glass-panel {

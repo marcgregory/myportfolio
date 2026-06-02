@@ -4,6 +4,7 @@ import CvChatWidget from "./components/CvChatWidget";
 import Expertise from "./components/Expertise";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
+import LowerSectionsBackdrop from "./components/LowerSectionsBackdrop";
 import Navigation from "./components/Navigation";
 import Projects from "./components/Projects";
 import ScrollToTop from "./components/ScrollToTop";
@@ -15,17 +16,17 @@ function App() {
   const [isCvChatOpen, setIsCvChatOpen] = useState(false);
 
   return (
-    <div className="min-h-screen overflow-hidden bg-background text-foreground">
-      <div className="site-backdrop" />
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <LowerSectionsBackdrop />
       <div className="noise-layer" />
       <Navigation onChangeTheme={handleThemeChange} />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Expertise />
         <Projects />
         <Contacts onStartConversation={() => setIsCvChatOpen(true)} />
+        <Footer />
       </main>
-      <Footer />
       <ScrollToTop />
       <Cursor />
       <CvChatWidget

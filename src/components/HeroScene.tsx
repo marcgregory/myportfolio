@@ -288,7 +288,7 @@ const HeroScene = () => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 opacity-95 [mask-image:radial-gradient(circle_at_66%_45%,black_0%,black_54%,transparent_86%)]"
+      className="hero-scene-layer pointer-events-none absolute inset-0 z-[1] opacity-85"
     >
       {!isReducedMotion && (
         <Canvas
@@ -306,7 +306,7 @@ const HeroScene = () => {
           <HeroWebglStage isMobile={isMobile} />
         </Canvas>
       )}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_44%,rgba(56,189,248,0.12),transparent_34%),radial-gradient(circle_at_58%_47%,rgba(124,58,237,0.14),transparent_42%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_44%,rgba(56,189,248,0.08),transparent_34%),radial-gradient(circle_at_58%_47%,rgba(124,58,237,0.09),transparent_42%)] dark:bg-[radial-gradient(circle_at_66%_44%,rgba(56,189,248,0.1),transparent_34%),radial-gradient(circle_at_58%_47%,rgba(124,58,237,0.11),transparent_42%)]" />
     </div>
   );
 };
