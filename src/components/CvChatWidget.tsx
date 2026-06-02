@@ -33,7 +33,7 @@ const welcomeMessage: ChatMessage = {
 };
 
 const quickQuestions = [
-  "What are Marc’s main skills?",
+  "What are Marc’s skills?",
   "What projects has Marc built?",
   "What is Marc’s work experience?",
   "How can I contact Marc?",
@@ -94,7 +94,10 @@ const renderMarkdownMessage = (content: string) => {
       });
 
       return (
-        <div key={`${block}-${blockIndex}`} className="my-2 first:mt-0 last:mb-0">
+        <div
+          key={`${block}-${blockIndex}`}
+          className="my-2 first:mt-0 last:mb-0"
+        >
           {leadingParagraphLines.length > 0 && (
             <p className="mb-2">
               {leadingParagraphLines.map((line, lineIndex) => (
@@ -267,7 +270,7 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
                     key={message.id}
                     className={cn(
                       "flex gap-3",
-                      isAssistant ? "justify-start" : "justify-end"
+                      isAssistant ? "justify-start" : "justify-end",
                     )}
                   >
                     {isAssistant && (
@@ -282,7 +285,7 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
                           ? "rounded-tl-md border border-white/10 bg-white/[0.055] text-slate-200"
                           : "rounded-tr-md bg-gradient-to-br from-sky-500 via-violet-500 to-fuchsia-600 font-semibold text-white",
                         message.isError &&
-                          "border-rose-300/30 bg-rose-500/10 text-rose-100"
+                          "border-rose-300/30 bg-rose-500/10 text-rose-100",
                       )}
                     >
                       {isAssistant ? (
@@ -372,7 +375,11 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
         className="button-gradient ml-auto flex size-14 cursor-pointer items-center justify-center rounded-full text-white shadow-[0_18px_48px_rgba(124,58,237,0.46)] ring-1 ring-white/15 sm:size-16"
         aria-label={isOpen ? "Close CV chat" : "Open CV chat"}
       >
-        {isOpen ? <X className="size-6" /> : <MessageCircle className="size-6" />}
+        {isOpen ? (
+          <X className="size-6" />
+        ) : (
+          <MessageCircle className="size-6" />
+        )}
       </motion.button>
     </div>
   );
