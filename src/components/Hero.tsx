@@ -2,7 +2,6 @@ import { motion } from "motion/react";
 import {
   ArrowUpRight,
   Code2,
-  Download,
   Figma,
   Rocket,
   Sparkles,
@@ -54,9 +53,12 @@ const Hero = () => {
             </Button>
             <Button
               variant="outline"
+              asChild
               className="h-14 rounded-lg border-slate-900/10 bg-white/70 px-7 text-base font-bold text-foreground hover:-translate-y-1 hover:border-teal-700/35 hover:bg-teal-50 hover:shadow-[0_16px_34px_rgba(15,118,110,0.14)] dark:border-white/15 dark:bg-white/[0.03] dark:text-white dark:hover:border-violet-300/35 dark:hover:bg-white/10 dark:hover:shadow-[0_16px_34px_rgba(124,58,237,0.18)]"
             >
-              Download CV <Download className="size-4" />
+              <a href="/room">
+                Enter room <Sparkles className="size-4" />
+              </a>
             </Button>
           </div>
 

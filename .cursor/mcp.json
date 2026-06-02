@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "blender": {
+      "command": "C:\\Users\\TO GOD BE THE GLORY\\.local\\bin\\uvx.exe",
+      "args": ["--python", "3.12", "blender-mcp"],
+      "env": {
+        "BLENDER_PORT": "9870",
+        "BLENDER_HOST": "localhost"
+      }
+    }
+  }
+}

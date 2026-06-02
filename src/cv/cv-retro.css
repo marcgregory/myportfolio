@@ -1,0 +1,522 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+.cv-root {
+  --bios-green: #3dff6e;
+  --bios-green-dim: #1faa42;
+  --bios-bg: #030a04;
+  --crt-vignette: rgba(0, 0, 0, 0.55);
+  --win-gray: #c0c0c0;
+  --win-dark: #808080;
+  --win-blue: #000080;
+  --win-title: #000080;
+  --win-teal: #008080;
+  --win-teal-deep: #004c4c;
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  position: relative;
+  isolation: isolate;
+}
+
+.cv-root::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.14) 0px,
+    rgba(0, 0, 0, 0.14) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+}
+
+.cv-bios {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 42%, rgba(61, 255, 110, 0.06), transparent 70%),
+    var(--bios-bg);
+  color: var(--bios-green);
+  font-family: "VT323", "IBM Plex Mono", monospace;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  line-height: 1.35;
+  overflow: hidden;
+  animation: cv-bios-flicker 8s ease-in-out infinite;
+}
+
+@keyframes cv-bios-flicker {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  48% {
+    filter: brightness(1.02);
+  }
+  50% {
+    filter: brightness(0.97);
+  }
+  52% {
+    filter: brightness(1.01);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-bios {
+    animation: none;
+  }
+
+  .cv-root::after {
+    opacity: 0.15;
+  }
+}
+
+.cv-bios::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 2;
+}
+
+.cv-bios::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 48%, var(--crt-vignette) 100%),
+    radial-gradient(circle at 50% 0%, rgba(61, 255, 110, 0.08), transparent 45%);
+  z-index: 1;
+}
+
+.cv-bios-inner {
+  position: relative;
+  z-index: 3;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  text-shadow:
+    0 0 6px rgba(61, 255, 110, 0.55),
+    0 0 18px rgba(61, 255, 110, 0.22);
+}
+
+.cv-bios-line {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.cv-bios-line.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cv-bios-start {
+  margin-top: 2rem;
+  padding: 0.35rem 1.25rem;
+  border: 2px solid var(--bios-green);
+  background: transparent;
+  color: var(--bios-green);
+  font-family: inherit;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(51, 255, 51, 0.45);
+}
+
+.cv-bios-start:hover,
+.cv-bios-start:focus-visible {
+  background: rgba(51, 255, 51, 0.12);
+  outline: none;
+}
+
+.cv-bios-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 2px;
+  background: var(--bios-green);
+  animation: cv-blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes cv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.cv-desktop {
+  min-height: 100vh;
+  background: var(--win-teal);
+  color: #000;
+  overflow: hidden;
+  user-select: none;
+}
+
+.cv-desktop-wallpaper {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 78%, rgba(0, 0, 0, 0.14), transparent 32%),
+    linear-gradient(145deg, var(--win-teal) 0%, var(--win-teal-deep) 55%, #006868 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+}
+
+.cv-desktop-icons {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 0.5rem;
+  padding: 1rem;
+  max-width: 520px;
+}
+
+@media (min-width: 768px) {
+  .cv-desktop-icons {
+    grid-template-columns: repeat(2, 88px);
+    gap: 1.25rem 1rem;
+  }
+}
+
+.cv-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #fff;
+  font-size: 0.68rem;
+  text-align: center;
+  line-height: 1.2;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.cv-desktop-icon:hover,
+.cv-desktop-icon:focus-visible {
+  background: rgba(0, 0, 128, 0.42);
+  border: 1px dotted #fff;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.cv-desktop-icon-glyph {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.cv-windows-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.cv-windows-layer > * {
+  pointer-events: auto;
+}
+
+.cv-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: min(340px, calc(100vw - 1.5rem));
+  max-width: min(560px, calc(100vw - 1.5rem));
+  max-height: min(72vh, 520px);
+  border: 2px solid;
+  border-color: #dfdfdf #404040 #404040 #dfdfdf;
+  background: var(--win-gray);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.cv-window.is-active {
+  z-index: 20;
+  box-shadow:
+    2px 2px 0 #000,
+    0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.cv-window:not(.is-active) .cv-window-titlebar {
+  background: linear-gradient(90deg, #808080, #a8a8a8);
+}
+
+.cv-window.is-minimized {
+  display: none;
+}
+
+.cv-window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.2rem 0.25rem 0.2rem 0.35rem;
+  background: linear-gradient(90deg, var(--win-title), #1084d0);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: grab;
+}
+
+.cv-window-titlebar:active {
+  cursor: grabbing;
+}
+
+.cv-window-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-window-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.cv-window-btn {
+  width: 18px;
+  height: 16px;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: var(--win-gray);
+  color: #000;
+  font-size: 0.65rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cv-window-btn:active {
+  border-color: #404040 #fff #fff #404040;
+}
+
+.cv-window-body {
+  flex: 1;
+  overflow: auto;
+  padding: 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  background: #fff;
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  margin: 2px;
+}
+
+.cv-window-body h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0.75rem 0 0.35rem;
+}
+
+.cv-window-body h3:first-child {
+  margin-top: 0;
+}
+
+.cv-window-body ul {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.1rem;
+}
+
+.cv-window-body a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.cv-taskbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 36px;
+  padding: 0 0.35rem;
+  background: var(--win-gray);
+  border-top: 2px solid #dfdfdf;
+}
+
+.cv-taskbar-start {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 28px;
+  padding: 0 0.5rem;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: var(--win-gray);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cv-taskbar-start.is-open {
+  border-color: #404040 #fff #fff #404040;
+}
+
+.cv-taskbar-link {
+  text-decoration: none;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.cv-taskbar-windows {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: 0.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cv-taskbar-windows::-webkit-scrollbar {
+  display: none;
+}
+
+.cv-taskbar-window {
+  max-width: 140px;
+  height: 28px;
+  padding: 0 0.45rem;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: var(--win-gray);
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cv-taskbar-window.is-active {
+  border-color: #404040 #fff #fff #404040;
+  background: #dfdfdf;
+}
+
+.cv-taskbar-window.is-minimized {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.cv-start-menu {
+  position: fixed;
+  left: 0;
+  bottom: 36px;
+  z-index: 60;
+  width: min(220px, calc(100vw - 1rem));
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: var(--win-gray);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.cv-start-menu button,
+.cv-start-menu a {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.65rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 0.75rem;
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cv-start-menu button:hover,
+.cv-start-menu a:hover {
+  background: var(--win-blue);
+  color: #fff;
+}
+
+.cv-taskbar-clock {
+  margin-left: auto;
+  padding: 0 0.5rem;
+  border: 1px inset #808080;
+  background: var(--win-gray);
+  font-size: 0.72rem;
+  line-height: 26px;
+}
+
+.cv-terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 220px;
+  background:
+    radial-gradient(ellipse at top, rgba(61, 255, 110, 0.08), transparent 55%),
+    #060a08;
+  color: #c8f7c5;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+.cv-terminal-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.35rem;
+  white-space: pre-wrap;
+}
+
+.cv-terminal-input-row {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-top: 1px solid #333;
+}
+
+.cv-terminal-input-row span {
+  color: #33ff33;
+}
+
+.cv-terminal-input-row input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .cv-window {
+    left: 0.75rem !important;
+    right: 0.75rem;
+    top: 2.5rem !important;
+    width: auto !important;
+    max-width: none;
+  }
+}

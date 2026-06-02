@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!api/|room/.*\\.(glb|mp3|ogg|wav)$).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
