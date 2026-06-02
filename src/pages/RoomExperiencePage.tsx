@@ -1,9 +1,7 @@
 import RoomBootScreen from "@/room/RoomBootScreen";
 import RoomCanvas from "@/room/RoomCanvas";
-import {
-  InteractablesProvider,
-  useFindInteractable,
-} from "@/room/InteractablesContext";
+import { InteractablesProvider } from "@/room/InteractablesContext";
+import { useFindInteractable } from "@/room/useInteractables";
 import RoomGuide from "@/room/RoomGuide";
 import RoomMiniApps from "@/room/RoomMiniApps";
 import type { InteractableId, RoomFocusState, RoomMiniAppId } from "@/room/room-types";

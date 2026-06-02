@@ -1,33 +1,21 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { interactables } from "./interactables-data";
 import { mergeInteractablesWithAnchors } from "./interactable-anchors";
-import type { InteractableDef, InteractableId } from "./room-types";
-import type * as THREE from "three";
-
-type AnchorMap = Partial<Record<InteractableId, THREE.Vector3>>;
-
-type InteractablesContextValue = {
-  items: InteractableDef[];
-  registerAnchors: (anchors: AnchorMap) => void;
-};
-
-const InteractablesContext = createContext<InteractablesContextValue | null>(
-  null,
-);
+import {
+  InteractablesContext,
+  type AnchorMap,
+} from "./interactables-context";
 
 export const InteractablesProvider = ({ children }: { children: ReactNode }) => {
   const [anchorMap, setAnchorMap] = useState<AnchorMap>({});
 
   const registerAnchors = useCallback((anchors: AnchorMap) => {
     setAnchorMap((current) => {
-      const keys = Object.keys(anchors) as InteractableId[];
+      const keys = Object.keys(anchors) as (keyof AnchorMap)[];
       if (keys.length === 0) return current;
       const same =
         keys.length === Object.keys(current).length &&
@@ -61,20 +49,4 @@ export const InteractablesProvider = ({ children }: { children: ReactNode }) => 
       {children}
     </InteractablesContext.Provider>
   );
-};
-
-export const useInteractableDefs = () => {
-  const ctx = useContext(InteractablesContext);
-  return ctx?.items ?? interactables;
-};
-
-export const useRegisterInteractableAnchors = () => {
-  const ctx = useContext(InteractablesContext);
-  return ctx?.registerAnchors ?? (() => undefined);
-};
-
-export const useFindInteractable = (id: InteractableId | null) => {
-  const items = useInteractableDefs();
-  if (!id) return null;
-  return items.find((item) => item.id === id) ?? null;
 };

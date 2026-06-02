@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { ROOM_GLB_PATH, ROOM_GLB_TRANSFORM } from "@/constants/room-assets";
 import { extractInteractableAnchors } from "./interactable-anchors";
-import { useRegisterInteractableAnchors } from "./InteractablesContext";
+import { useRegisterInteractableAnchors } from "./useInteractables";
 
 const DeveloperRoomGlb = () => {
   const { scene } = useGLTF(ROOM_GLB_PATH);

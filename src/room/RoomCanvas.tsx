@@ -4,7 +4,7 @@ import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Suspense, useCallback, useRef, useState } from "react";
 import DeveloperRoomScene from "./DeveloperRoomScene";
 import FirstPersonPlayer from "./FirstPersonPlayer";
-import { useInteractableDefs } from "./InteractablesContext";
+import { useInteractableDefs } from "./useInteractables";
 import RoomInteractables from "./RoomInteractables";
 import { useInteractableActions } from "./useInteractableActions";
 import RoomLighting from "./RoomLighting";

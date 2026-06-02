@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "framework": "vite",
   "rewrites": [
     {
       "source": "/((?!api/|room/.*\\.(glb|mp3|ogg|wav)$).*)",

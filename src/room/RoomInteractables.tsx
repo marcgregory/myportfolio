@@ -3,10 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import { distanceXZ } from "./interactable-anchors";
-import {
-  useFindInteractable,
-  useInteractableDefs,
-} from "./InteractablesContext";
+import { useFindInteractable, useInteractableDefs } from "./useInteractables";
 import type { InteractableId } from "./room-types";
 
 type RoomInteractablesProps = {
