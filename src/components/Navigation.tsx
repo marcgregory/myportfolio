@@ -40,8 +40,8 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
       transition={{ duration: 0.65, ease: "easeOut" }}
       className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
         scrolled
-          ? "border-white/10 bg-[#050816]/82 backdrop-blur-2xl"
-          : "border-white/5 bg-[#050816]/34 backdrop-blur-md"
+          ? "border-slate-900/10 bg-white/78 shadow-[0_14px_38px_rgba(49,64,105,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-[#050816]/82 dark:shadow-none"
+          : "border-slate-900/5 bg-white/42 backdrop-blur-md dark:border-white/5 dark:bg-[#050816]/34"
       }`}
     >
       <div className="site-shell flex h-[76px] items-center justify-between">
@@ -55,10 +55,10 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
             MG
           </span>
           <span className="hidden leading-tight sm:block">
-            <span className="block text-sm font-bold text-white">
+            <span className="block text-sm font-bold text-foreground dark:text-white">
               Marc Gregory
             </span>
-            <span className="block text-xs text-slate-400">
+            <span className="block text-xs text-muted-foreground dark:text-slate-400">
               Full-Stack Developer
             </span>
           </span>
@@ -70,7 +70,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
               key={link.label}
               type="button"
               onClick={() => handleNavigate(link.target)}
-              className="relative cursor-pointer text-sm font-medium text-slate-300 transition duration-300 hover:-translate-y-0.5 hover:text-white after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-violet-300 after:transition-all after:duration-300 hover:after:w-full"
+              className="relative cursor-pointer text-sm font-medium text-muted-foreground transition duration-300 hover:-translate-y-0.5 hover:text-teal-700 after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-teal-700 after:transition-all after:duration-300 hover:after:w-full dark:text-slate-300 dark:hover:text-white dark:after:bg-violet-300"
             >
               {link.label}
             </button>
@@ -80,7 +80,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
         <div className="hidden items-center gap-3 md:flex">
           <Button
             onClick={() => handleNavigate("contact")}
-            className="button-gradient h-11 rounded-lg px-5 text-sm font-bold text-white hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(124,58,237,0.46)]"
+            className="button-gradient h-11 rounded-lg px-5 text-sm font-bold text-white hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(15,118,110,0.24)] dark:hover:shadow-[0_18px_42px_rgba(124,58,237,0.46)]"
           >
             Hire Me
           </Button>
@@ -90,7 +90,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="text-white md:hidden"
+          className="text-foreground dark:text-white md:hidden"
           onClick={() => setIsMenuOpen((value) => !value)}
           aria-label="Toggle navigation menu"
         >
@@ -102,7 +102,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="border-t border-white/10 bg-[#070b1d]/96 px-4 py-5 backdrop-blur-2xl md:hidden"
+          className="border-t border-slate-900/10 bg-white/92 px-4 py-5 backdrop-blur-2xl dark:border-white/10 dark:bg-[#070b1d]/96 md:hidden"
         >
           <div className="site-shell grid gap-2">
             {links.map((link) => (
@@ -110,7 +110,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
                 key={link.label}
                 type="button"
                 onClick={() => handleNavigate(link.target)}
-                className="cursor-pointer rounded-lg px-3 py-3 text-left text-sm font-semibold text-slate-200 transition duration-300 hover:bg-white/[0.07] hover:text-white"
+                className="cursor-pointer rounded-lg px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition duration-300 hover:bg-teal-50 hover:text-teal-700 dark:text-slate-200 dark:hover:bg-white/[0.07] dark:hover:text-white"
               >
                 {link.label}
               </button>
@@ -121,8 +121,8 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
             >
               Hire Me
             </Button>
-            <div className="mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
-              <span className="text-sm font-semibold text-slate-300">Theme</span>
+            <div className="mt-3 flex items-center justify-between rounded-xl border border-slate-900/10 bg-white/60 px-3 py-2 dark:border-white/10 dark:bg-white/[0.03]">
+              <span className="text-sm font-semibold text-muted-foreground dark:text-slate-300">Theme</span>
               <ThemeToggle onChangeTheme={onChangeTheme} />
             </div>
           </div>

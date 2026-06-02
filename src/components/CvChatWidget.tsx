@@ -234,10 +234,10 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 18, scale: 0.96 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="glass-panel mb-4 flex h-[min(620px,calc(100vh-120px))] w-[min(390px,calc(100vw-40px))] flex-col overflow-hidden rounded-2xl shadow-[0_28px_90px_rgba(3,7,18,0.62)]"
+            className="mb-4 flex h-[min(620px,calc(100vh-120px))] w-[min(390px,calc(100vw-40px))] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#0b1026]/95 shadow-[0_28px_90px_rgba(3,7,18,0.46)] backdrop-blur-2xl"
             aria-label="Marc CV chat assistant"
           >
-            <header className="flex items-center justify-between gap-4 border-b border-white/10 bg-white/[0.04] px-4 py-4">
+            <header className="flex items-center justify-between gap-4 border-b border-white/10 bg-white/[0.05] px-4 py-4">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-violet-400/15 text-violet-100 ring-1 ring-violet-200/20">
                   <Sparkles className="size-4" />
@@ -261,7 +261,7 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
               </button>
             </header>
 
-            <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
+            <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4 [scrollbar-color:rgba(167,139,250,0.42)_transparent]">
               {messages.map((message) => {
                 const isAssistant = message.role === "assistant";
 
@@ -283,7 +283,7 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
                         "max-w-[82%] overflow-hidden rounded-2xl px-4 py-3 text-sm leading-6 break-words",
                         isAssistant
                           ? "rounded-tl-md border border-white/10 bg-white/[0.055] text-slate-200"
-                          : "rounded-tr-md bg-gradient-to-br from-sky-500 via-violet-500 to-fuchsia-600 font-semibold text-white",
+                          : "rounded-tr-md bg-slate-800 font-semibold text-white dark:bg-gradient-to-br dark:from-sky-500 dark:via-violet-500 dark:to-fuchsia-600",
                         message.isError &&
                           "border-rose-300/30 bg-rose-500/10 text-rose-100",
                       )}
@@ -319,8 +319,8 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-white/10 bg-slate-950/42 p-4">
-              <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+            <div className="border-t border-white/10 bg-slate-950/58 p-4">
+              <div className="mb-3 flex flex-wrap gap-2">
                 {quickQuestions.map((question) => (
                   <button
                     key={question}
@@ -372,7 +372,7 @@ const CvChatWidget = ({ isOpen, onClose, onOpen }: CvChatWidgetProps) => {
         onClick={isOpen ? onClose : onOpen}
         whileHover={{ y: -3, scale: 1.03 }}
         whileTap={{ scale: 0.96 }}
-        className="button-gradient ml-auto flex size-14 cursor-pointer items-center justify-center rounded-full text-white shadow-[0_18px_48px_rgba(124,58,237,0.46)] ring-1 ring-white/15 sm:size-16"
+        className="button-gradient ml-auto flex size-14 cursor-pointer items-center justify-center rounded-full text-white shadow-[0_18px_42px_rgba(15,118,110,0.24)] ring-1 ring-white/15 dark:shadow-[0_18px_48px_rgba(124,58,237,0.46)] sm:size-16"
         aria-label={isOpen ? "Close CV chat" : "Open CV chat"}
       >
         {isOpen ? (

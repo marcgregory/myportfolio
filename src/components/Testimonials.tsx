@@ -158,7 +158,7 @@ const Testimonials = () => {
           }}
         >
           <h2 className="mb-8 text-4xl lg:text-5xl font-display text-center">
-            <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">What Others Say</span>
+            <span className="text-slate-900 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-600 dark:bg-clip-text dark:text-transparent">What Others Say</span>
             <span className="ml-4 text-xl text-muted-foreground">Client Testimonials</span>
           </h2>
 

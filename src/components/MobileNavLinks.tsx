@@ -33,8 +33,8 @@ const MobileNavLinks = ({ isMenuOpen, setIsOpenMenu }: NavLinksProps) => {
               }}
               className={
                 activeLink === name
-                  ? "text-blue-500 font-bold"
-                  : `w-full justify-start cursor-pointer hover:text-blue-500 transition-colors text-left`
+                  ? "font-bold text-teal-700 dark:text-blue-500"
+                  : `w-full justify-start cursor-pointer hover:text-teal-700 dark:hover:text-blue-500 transition-colors text-left`
               }
             >
               {name}
@@ -43,7 +43,7 @@ const MobileNavLinks = ({ isMenuOpen, setIsOpenMenu }: NavLinksProps) => {
         })}
 
         <Button
-          className="w-full bg-gradient-to-r cursor-pointer from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 mt-4"
+          className="mt-4 w-full cursor-pointer bg-teal-700 text-white hover:bg-teal-800 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-600 dark:hover:from-blue-600 dark:hover:to-purple-700"
           onClick={() => {
             scrollTo({ top: 0, behavior: "smooth" });
             setIsOpenMenu?.(false);

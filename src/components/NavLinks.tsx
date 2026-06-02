@@ -32,8 +32,8 @@ const NavLinks = ({
             variant="ghost"
             className={
               activeLink === name
-                ? "text-blue-500 font-bold"
-                : "hover:text-blue-500 transition-color text-muted-foreground cursor-pointer"
+                ? "font-bold text-teal-700 dark:text-blue-500"
+                : "cursor-pointer text-muted-foreground transition-color hover:text-teal-700 dark:hover:text-blue-500"
             }
             onClick={() => {
               handleNavLinkClick?.(name);
@@ -45,7 +45,7 @@ const NavLinks = ({
 
         <Button
           onClick={() => handleNavLinkClick?.("Hire me")}
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 cursor-pointer animate-pulse text-white"
+          className="cursor-pointer animate-pulse bg-teal-700 text-white hover:bg-teal-800 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-600 dark:hover:from-blue-600 dark:hover:to-purple-700"
         >
           Hire me
         </Button>

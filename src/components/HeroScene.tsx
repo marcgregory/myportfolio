@@ -36,19 +36,31 @@ const HeroScene = () => {
     const particlesCount = isMobile ? 260 : 620;
     const positions = new Float32Array(particlesCount * 3);
     const colors = new Float32Array(particlesCount * 3);
-    const colorA = new THREE.Color("#8b5cf6");
-    const colorB = new THREE.Color("#38bdf8");
+    const colorMixes = new Float32Array(particlesCount);
+    const colorA = new THREE.Color();
+    const colorB = new THREE.Color();
+    const color = new THREE.Color();
+
+    const setThemeColors = () => {
+      const isDarkTheme = document.documentElement.classList.contains("dark");
+      colorA.set(isDarkTheme ? "#8b5cf6" : "#0f766e");
+      colorB.set(isDarkTheme ? "#38bdf8" : "#34d399");
+    };
+
+    setThemeColors();
 
     for (let i = 0; i < particlesCount; i += 1) {
       const i3 = i * 3;
+      const mix = Math.random();
       const radius = 2.35 + Math.random() * 3.65;
       const angle = Math.random() * Math.PI * 2;
       const depth = (Math.random() - 0.5) * 4.5;
+      colorMixes[i] = mix;
       positions[i3] = Math.cos(angle) * radius;
       positions[i3 + 1] = Math.sin(angle) * radius * 0.58;
       positions[i3 + 2] = depth;
 
-      const color = colorA.clone().lerp(colorB, Math.random());
+      color.copy(colorA).lerp(colorB, mix);
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
@@ -77,7 +89,7 @@ const HeroScene = () => {
 
     const rings = new THREE.Group();
     const ringMaterial = new THREE.MeshBasicMaterial({
-      color: "#a78bfa",
+      color: "#0f766e",
       transparent: true,
       opacity: 0.25,
       side: THREE.DoubleSide,
@@ -96,6 +108,27 @@ const HeroScene = () => {
       rings.add(ring);
     });
     scene.add(rings);
+
+    const applyThemeColors = () => {
+      const isDarkTheme = document.documentElement.classList.contains("dark");
+      setThemeColors();
+
+      for (let i = 0; i < particlesCount; i += 1) {
+        const i3 = i * 3;
+        color.copy(colorA).lerp(colorB, colorMixes[i]);
+        colors[i3] = color.r;
+        colors[i3 + 1] = color.g;
+        colors[i3 + 2] = color.b;
+      }
+
+      particlesGeometry.attributes.color.needsUpdate = true;
+      rings.children.forEach((child) => {
+        const mesh = child as THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial>;
+        mesh.material.color.set(isDarkTheme ? "#a78bfa" : "#0f766e");
+      });
+    };
+
+    applyThemeColors();
 
     const lightNodeGeometry = new THREE.SphereGeometry(0.055, 16, 16);
     const lightNodeMaterial = new THREE.MeshBasicMaterial({
@@ -127,6 +160,11 @@ const HeroScene = () => {
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("pointermove", onPointerMove);
+    const themeObserver = new MutationObserver(applyThemeColors);
+    themeObserver.observe(document.documentElement, {
+      attributeFilter: ["class"],
+      attributes: true,
+    });
 
     let frameId = 0;
     const clock = new THREE.Clock();
@@ -153,6 +191,7 @@ const HeroScene = () => {
       window.cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onPointerMove);
+      themeObserver.disconnect();
       particlesGeometry.dispose();
       (particles.material as THREE.Material).dispose();
       lightNodeGeometry.dispose();
@@ -173,7 +212,7 @@ const HeroScene = () => {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 -z-0 opacity-85 [mask-image:radial-gradient(circle_at_64%_46%,black_0%,black_50%,transparent_84%)]"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_64%_42%,rgba(124,58,237,0.26),transparent_34%),radial-gradient(circle_at_78%_50%,rgba(14,165,233,0.14),transparent_28%)] motion-reduce:block hidden" />
+      <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_64%_42%,rgba(15,118,110,0.2),transparent_34%),radial-gradient(circle_at_78%_50%,rgba(52,211,153,0.16),transparent_28%)] motion-reduce:block dark:bg-[radial-gradient(circle_at_64%_42%,rgba(124,58,237,0.26),transparent_34%),radial-gradient(circle_at_78%_50%,rgba(14,165,233,0.14),transparent_28%)]" />
     </div>
   );
 };

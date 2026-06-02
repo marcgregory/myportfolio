@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_22%_8%,rgba(124,58,237,0.24),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(14,165,233,0.16),transparent_30%),linear-gradient(180deg,#050816_0%,#070b1d_45%,#050716_100%)]" />
+      <div className="site-backdrop" />
       <div className="noise-layer" />
       <Navigation onChangeTheme={handleThemeChange} />
       <main>

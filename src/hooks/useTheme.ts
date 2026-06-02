@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+type Theme = "light" | "dark";
+
+const getSavedTheme = (): Theme => {
+  const savedTheme = localStorage.getItem("theme");
+  return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "dark";
+};
 
 const useTheme = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<Theme>(getSavedTheme);
 
   useEffect(() => {
-    // Initialize theme on mount
-    const savedTheme =
-      (localStorage.getItem("theme") as "light" | "dark") || "dark";
     const htmlElement = document.documentElement;
 
     htmlElement.classList.remove("dark", "light");
-    htmlElement.classList.add(savedTheme);
-    setTheme(savedTheme);
-  }, []);
+    htmlElement.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
-  const handleThemeChange = (newTheme: "light" | "dark") => {
+  const handleThemeChange = useCallback((newTheme: Theme) => {
     setTheme(newTheme);
-  };
+  }, []);
 
   return { theme, handleThemeChange };
 };
