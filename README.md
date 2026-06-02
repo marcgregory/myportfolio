@@ -10,10 +10,12 @@ The CV chatbot uses a Vercel Function at `/api/chat-cv`. Keep the AI key on the 
 
 ```bash
 OPENROUTER_API_KEY=your_openrouter_key
-OPENROUTER_MODEL=openrouter/free
+OPENROUTER_MODEL=qwen/qwen3-coder:free
+GROQ_API_KEY=your_groq_key
+GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
-`OPENROUTER_MODEL` is configurable because OpenRouter free model availability can change. `openrouter/free` lets OpenRouter route to a currently available free model. The extracted CV context lives in `data/marc-gregory-cv.md` and is read only by the backend route.
+OpenRouter remains the primary AI provider. If OpenRouter hits a temporary failure, timeout, or upstream rate limit, the backend automatically falls back to Groq. `OPENROUTER_MODEL` and `GROQ_MODEL` are both configurable because free model availability can change. The extracted CV context lives in `data/marc-gregory-cv.md` and is read only by the backend route.
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

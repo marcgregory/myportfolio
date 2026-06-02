@@ -30,6 +30,8 @@ function localApiPlugin(env: Record<string, string>): Plugin {
         try {
           process.env.OPENROUTER_API_KEY ||= env.OPENROUTER_API_KEY;
           process.env.OPENROUTER_MODEL ||= env.OPENROUTER_MODEL;
+          process.env.GROQ_API_KEY ||= env.GROQ_API_KEY;
+          process.env.GROQ_MODEL ||= env.GROQ_MODEL;
 
           const module = await import(`${chatCvHandlerUrl}?t=${Date.now()}`);
           const handler = module.default as VercelHandler;
