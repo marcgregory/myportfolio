@@ -97,7 +97,6 @@ const Hero = () => {
             <NodeIcon className="size-7" />
           </div>
 
-          <div className="hero-orbit hidden md:block" />
           <div className="absolute h-[68%] w-[58%] rounded-full bg-[radial-gradient(circle,rgba(15,118,110,0.16)_0%,rgba(52,211,153,0.1)_44%,transparent_72%)] blur-3xl dark:bg-[radial-gradient(circle,rgba(124,58,237,0.22)_0%,rgba(56,189,248,0.1)_44%,transparent_72%)]" />
           <div className="absolute bottom-[17%] h-[18%] w-[42%] rounded-full bg-emerald-500/8 blur-2xl dark:bg-cyan-500/8" />
           <div className="relative w-[min(83vw,480px)]">

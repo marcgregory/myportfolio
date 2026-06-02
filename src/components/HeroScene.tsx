@@ -1,218 +1,312 @@
-import { useEffect, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const HeroScene = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+const useMobileScene = () => {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window === "undefined"
+      ? false
+      : window.matchMedia("(max-width: 767px)").matches
+  );
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container || prefersReducedMotion()) {
-      return;
-    }
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(media.matches);
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-    camera.position.set(0, 0, 7);
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    update();
+    media.addEventListener("change", update);
 
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: "high-performance",
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 1.75));
-    renderer.setClearColor(0x000000, 0);
-    renderer.domElement.style.position = "absolute";
-    renderer.domElement.style.inset = "0";
-    renderer.domElement.style.zIndex = "0";
-    renderer.domElement.style.pointerEvents = "none";
-    container.appendChild(renderer.domElement);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
-    const pointer = new THREE.Vector2(0, 0);
-    const particlesCount = isMobile ? 260 : 620;
-    const positions = new Float32Array(particlesCount * 3);
-    const colors = new Float32Array(particlesCount * 3);
-    const colorMixes = new Float32Array(particlesCount);
-    const colorA = new THREE.Color();
-    const colorB = new THREE.Color();
+  return isMobile;
+};
+
+const makeRibbonCurve = (index: number, isMobile: boolean) => {
+  const points: THREE.Vector3[] = [];
+  const samples = isMobile ? 72 : 116;
+  const arc = Math.PI * (1.35 + index * 0.18);
+  const start = -arc * 0.52;
+  const xOffset = isMobile ? 0.2 : 1.02;
+  const radius = 2.18 + index * 0.46;
+  const yTilt = 0.48 + index * 0.08;
+  const zWave = 0.52 + index * 0.15;
+
+  for (let i = 0; i < samples; i += 1) {
+    const progress = i / (samples - 1);
+    const angle = start + arc * progress;
+    const lift = Math.sin(progress * Math.PI) * (0.18 + index * 0.05);
+    const taper = Math.sin(progress * Math.PI);
+
+    points.push(
+      new THREE.Vector3(
+        Math.cos(angle) * radius + xOffset - index * 0.14,
+        Math.sin(angle) * radius * yTilt - 0.08 + lift,
+        Math.sin(progress * Math.PI * 2 + index * 0.75) * zWave * taper -
+          index * 0.2
+      )
+    );
+  }
+
+  return new THREE.CatmullRomCurve3(points);
+};
+
+const EnergyRibbon = ({
+  color,
+  accent,
+  index,
+  isMobile,
+}: {
+  color: string;
+  accent: string;
+  index: number;
+  isMobile: boolean;
+}) => {
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const geometry = useMemo(() => {
+    const curve = makeRibbonCurve(index, isMobile);
+    return new THREE.TubeGeometry(
+      curve,
+      isMobile ? 96 : 172,
+      0.012 + index * 0.004,
+      10,
+      false
+    );
+  }, [index, isMobile]);
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uColor: { value: new THREE.Color(color) },
+      uAccent: { value: new THREE.Color(accent) },
+      uOpacity: { value: isMobile ? 0.52 : 0.74 },
+    }),
+    [accent, color, isMobile]
+  );
+
+  useEffect(() => () => geometry.dispose(), [geometry]);
+
+  useFrame(({ clock }) => {
+    if (!materialRef.current) return;
+    materialRef.current.uniforms.uTime.value =
+      clock.elapsedTime * (0.72 + index * 0.13);
+  });
+
+  return (
+    <mesh geometry={geometry} renderOrder={4}>
+      <shaderMaterial
+        ref={materialRef}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        toneMapped={false}
+        vertexShader={`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `}
+        fragmentShader={`
+          uniform float uTime;
+          uniform vec3 uColor;
+          uniform vec3 uAccent;
+          uniform float uOpacity;
+          varying vec2 vUv;
+
+          void main() {
+            float pulse = sin(vUv.x * 22.0 - uTime * 2.1) * 0.5 + 0.5;
+            float core = smoothstep(0.34, 1.0, pulse);
+            float edgeFade = smoothstep(0.0, 0.16, vUv.x) * smoothstep(1.0, 0.72, vUv.x);
+            vec3 color = mix(uColor, uAccent, core) * (1.2 + core * 2.1);
+            float alpha = (0.18 + core * 0.8) * edgeFade * uOpacity;
+            gl_FragColor = vec4(color, alpha);
+          }
+        `}
+      />
+    </mesh>
+  );
+};
+
+const ParticleField = ({ isMobile }: { isMobile: boolean }) => {
+  const pointsRef = useRef<THREE.Points>(null);
+  const particleCount = isMobile ? 240 : 780;
+
+  const { colors, positions } = useMemo(() => {
+    const nextPositions = new Float32Array(particleCount * 3);
+    const nextColors = new Float32Array(particleCount * 3);
+    const colorA = new THREE.Color("#8b5cf6");
+    const colorB = new THREE.Color("#38bdf8");
+    const colorC = new THREE.Color("#ffffff");
     const color = new THREE.Color();
 
-    const setThemeColors = () => {
-      const isDarkTheme = document.documentElement.classList.contains("dark");
-      colorA.set(isDarkTheme ? "#8b5cf6" : "#0f766e");
-      colorB.set(isDarkTheme ? "#38bdf8" : "#34d399");
-    };
-
-    setThemeColors();
-
-    for (let i = 0; i < particlesCount; i += 1) {
+    for (let i = 0; i < particleCount; i += 1) {
       const i3 = i * 3;
-      const mix = Math.random();
-      const radius = 2.35 + Math.random() * 3.65;
       const angle = Math.random() * Math.PI * 2;
-      const depth = (Math.random() - 0.5) * 4.5;
-      colorMixes[i] = mix;
-      positions[i3] = Math.cos(angle) * radius;
-      positions[i3 + 1] = Math.sin(angle) * radius * 0.58;
-      positions[i3 + 2] = depth;
+      const radius = 1.15 + Math.random() * 5.4;
+      const zDepth = (Math.random() - 0.5) * 6.2;
+      const verticalSpread = 0.48 + Math.random() * 0.28;
 
-      color.copy(colorA).lerp(colorB, mix);
-      colors[i3] = color.r;
-      colors[i3 + 1] = color.g;
-      colors[i3 + 2] = color.b;
+      nextPositions[i3] = Math.cos(angle) * radius + (isMobile ? 0.1 : 0.78);
+      nextPositions[i3 + 1] =
+        Math.sin(angle) * radius * verticalSpread + (Math.random() - 0.5) * 0.32;
+      nextPositions[i3 + 2] = zDepth;
+
+      color.copy(colorA).lerp(colorB, Math.random());
+      if (Math.random() > 0.82) color.lerp(colorC, 0.48);
+      nextColors[i3] = color.r;
+      nextColors[i3 + 1] = color.g;
+      nextColors[i3 + 2] = color.b;
     }
 
-    const particlesGeometry = new THREE.BufferGeometry();
-    particlesGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
-    particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    return { colors: nextColors, positions: nextPositions };
+  }, [isMobile, particleCount]);
 
-    const particles = new THREE.Points(
-      particlesGeometry,
-      new THREE.PointsMaterial({
-        size: 0.028,
-        sizeAttenuation: true,
-        transparent: true,
-        opacity: isMobile ? 0.48 : 0.66,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexColors: true,
-      })
-    );
-    scene.add(particles);
+  useFrame(({ clock, pointer }) => {
+    if (!pointsRef.current) return;
+    pointsRef.current.rotation.y = clock.elapsedTime * 0.018 + pointer.x * 0.08;
+    pointsRef.current.rotation.x = pointer.y * 0.035;
+  });
 
-    const rings = new THREE.Group();
-    const ringMaterial = new THREE.MeshBasicMaterial({
-      color: "#0f766e",
-      transparent: true,
-      opacity: 0.25,
-      side: THREE.DoubleSide,
-      depthWrite: false,
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        vertexColors
+        transparent
+        opacity={isMobile ? 0.48 : 0.74}
+        size={isMobile ? 0.032 : 0.026}
+        sizeAttenuation
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+};
+
+const EnergyNodes = ({ isMobile }: { isMobile: boolean }) => {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock, pointer }) => {
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = pointer.x * 0.07;
+    groupRef.current.rotation.x = pointer.y * 0.04;
+
+    groupRef.current.children.forEach((child, index) => {
+      child.scale.setScalar(1 + Math.sin(clock.elapsedTime * 0.9 + index) * 0.18);
     });
+  });
 
-    [2.25, 3.05, 3.85].forEach((radius, index) => {
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(radius, 0.006, 12, 180),
-        ringMaterial.clone()
-      );
-      ring.rotation.x = Math.PI * (0.58 + index * 0.05);
-      ring.rotation.y = Math.PI * (0.1 + index * 0.08);
-      ring.position.x = isMobile ? 0.2 : 0.9;
-      ring.position.y = -0.05;
-      rings.add(ring);
-    });
-    scene.add(rings);
+  return (
+    <group ref={groupRef}>
+      {[
+        [-2.42, 0.98, 0.2],
+        [0.24, -1.42, 0.45],
+        [2.96, 0.76, -0.38],
+      ].map(([x, y, z], index) => (
+        <mesh key={`${x}-${y}-${z}`} position={[x, y, z]}>
+          <sphereGeometry args={[isMobile ? 0.035 : 0.055, 18, 18]} />
+          <meshBasicMaterial
+            color={index === 1 ? "#38bdf8" : "#f5f0ff"}
+            transparent
+            opacity={0.9}
+            toneMapped={false}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+};
 
-    const applyThemeColors = () => {
-      const isDarkTheme = document.documentElement.classList.contains("dark");
-      setThemeColors();
+const HeroWebglStage = ({ isMobile }: { isMobile: boolean }) => {
+  const groupRef = useRef<THREE.Group>(null);
 
-      for (let i = 0; i < particlesCount; i += 1) {
-        const i3 = i * 3;
-        color.copy(colorA).lerp(colorB, colorMixes[i]);
-        colors[i3] = color.r;
-        colors[i3 + 1] = color.g;
-        colors[i3 + 2] = color.b;
-      }
+  useFrame(({ clock, pointer, camera }) => {
+    if (!groupRef.current) return;
 
-      particlesGeometry.attributes.color.needsUpdate = true;
-      rings.children.forEach((child) => {
-        const mesh = child as THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial>;
-        mesh.material.color.set(isDarkTheme ? "#a78bfa" : "#0f766e");
-      });
-    };
+    groupRef.current.rotation.z = Math.sin(clock.elapsedTime * 0.18) * 0.025;
+    groupRef.current.position.x = pointer.x * (isMobile ? 0.05 : 0.18);
+    groupRef.current.position.y = pointer.y * (isMobile ? 0.035 : 0.12);
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.22, 0.035);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.16, 0.035);
+    camera.lookAt(0, 0, 0);
+  });
 
-    applyThemeColors();
+  return (
+    <>
+      <fog attach="fog" args={["#050816", 4.2, 9.4]} />
+      <group ref={groupRef} rotation={[0.05, -0.08, -0.22]}>
+        <ParticleField isMobile={isMobile} />
+        {[0, 1, 2, 3].slice(0, isMobile ? 2 : 4).map((index) => (
+          <EnergyRibbon
+            key={index}
+            index={index}
+            isMobile={isMobile}
+            color={index % 2 ? "#38bdf8" : "#8b5cf6"}
+            accent={index % 2 ? "#c084fc" : "#22d3ee"}
+          />
+        ))}
+        <EnergyNodes isMobile={isMobile} />
+      </group>
+      {!isMobile && (
+        <EffectComposer multisampling={0} enableNormalPass={false}>
+          <Bloom
+            intensity={1.35}
+            luminanceThreshold={0.16}
+            luminanceSmoothing={0.42}
+            mipmapBlur
+          />
+        </EffectComposer>
+      )}
+    </>
+  );
+};
 
-    const lightNodeGeometry = new THREE.SphereGeometry(0.055, 16, 16);
-    const lightNodeMaterial = new THREE.MeshBasicMaterial({
-      color: "#ffffff",
-      transparent: true,
-      opacity: 0.85,
-    });
-    const lightNodes = [-1.5, -0.2, 1.7].map((x, index) => {
-      const node = new THREE.Mesh(lightNodeGeometry, lightNodeMaterial.clone());
-      node.position.set(x + 1.2, index === 1 ? -1.55 : 1.25 - index * 0.45, 0.4);
-      scene.add(node);
-      return node;
-    });
+const HeroScene = () => {
+  const isMobile = useMobileScene();
+  const [isReducedMotion, setIsReducedMotion] = useState(prefersReducedMotion);
 
-    const resize = () => {
-      const { clientWidth, clientHeight } = container;
-      renderer.setSize(clientWidth, clientHeight);
-      camera.aspect = clientWidth / Math.max(clientHeight, 1);
-      camera.updateProjectionMatrix();
-    };
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setIsReducedMotion(media.matches);
 
-    const onPointerMove = (event: PointerEvent) => {
-      if (isMobile) return;
-      const rect = container.getBoundingClientRect();
-      pointer.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-      pointer.y = -(((event.clientY - rect.top) / rect.height - 0.5) * 2);
-    };
+    update();
+    media.addEventListener("change", update);
 
-    resize();
-    window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", onPointerMove);
-    const themeObserver = new MutationObserver(applyThemeColors);
-    themeObserver.observe(document.documentElement, {
-      attributeFilter: ["class"],
-      attributes: true,
-    });
-
-    let frameId = 0;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      const elapsed = clock.getElapsedTime();
-      particles.rotation.y = elapsed * 0.018 + pointer.x * 0.045;
-      particles.rotation.x = pointer.y * 0.025;
-      rings.rotation.z = elapsed * 0.026;
-      rings.rotation.x = pointer.y * 0.025;
-      rings.rotation.y = pointer.x * 0.045;
-
-      lightNodes.forEach((node, index) => {
-        node.scale.setScalar(1 + Math.sin(elapsed * 0.9 + index) * 0.18);
-      });
-
-      renderer.render(scene, camera);
-      frameId = window.requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", onPointerMove);
-      themeObserver.disconnect();
-      particlesGeometry.dispose();
-      (particles.material as THREE.Material).dispose();
-      lightNodeGeometry.dispose();
-      lightNodes.forEach((node) => (node.material as THREE.Material).dispose());
-      rings.children.forEach((child) => {
-        const mesh = child as THREE.Mesh;
-        mesh.geometry.dispose();
-        (mesh.material as THREE.Material).dispose();
-      });
-      renderer.dispose();
-      renderer.domElement.remove();
-    };
+    return () => media.removeEventListener("change", update);
   }, []);
 
   return (
     <div
-      ref={containerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-0 opacity-85 [mask-image:radial-gradient(circle_at_64%_46%,black_0%,black_50%,transparent_84%)]"
+      className="pointer-events-none absolute inset-0 z-0 opacity-95 [mask-image:radial-gradient(circle_at_66%_45%,black_0%,black_54%,transparent_86%)]"
     >
-      <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_64%_42%,rgba(15,118,110,0.2),transparent_34%),radial-gradient(circle_at_78%_50%,rgba(52,211,153,0.16),transparent_28%)] motion-reduce:block dark:bg-[radial-gradient(circle_at_64%_42%,rgba(124,58,237,0.26),transparent_34%),radial-gradient(circle_at_78%_50%,rgba(14,165,233,0.14),transparent_28%)]" />
+      {!isReducedMotion && (
+        <Canvas
+          camera={{ fov: 48, position: [0, 0, 6.4], near: 0.1, far: 30 }}
+          dpr={isMobile ? [1, 1.15] : [1, 1.75]}
+          gl={{
+            alpha: true,
+            antialias: !isMobile,
+            powerPreference: isMobile ? "low-power" : "high-performance",
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor("#050816", 0);
+          }}
+        >
+          <HeroWebglStage isMobile={isMobile} />
+        </Canvas>
+      )}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_44%,rgba(56,189,248,0.12),transparent_34%),radial-gradient(circle_at_58%_47%,rgba(124,58,237,0.14),transparent_42%)]" />
     </div>
   );
 };
