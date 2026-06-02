@@ -7,6 +7,7 @@ import {
   Rocket,
   Sparkles,
 } from "lucide-react";
+import CountUp from "./CountUp";
 import { Button } from "./ui/button";
 import HeroScene from "./HeroScene";
 import { ReactIcon, TypeScriptIcon, NodeIcon } from "./TechIcons";
@@ -72,7 +73,8 @@ const Hero = () => {
               ))}
             </div>
             <p className="max-w-[170px] text-sm leading-6 text-muted-foreground dark:text-slate-400">
-              Trusted by 20+ clients worldwide{" "}
+              Trusted by <CountUp value="20+" className="tabular-nums" /> clients
+              worldwide{" "}
               <span className="inline-block size-2 rounded-full bg-emerald-400" />
             </p>
           </div>
@@ -127,9 +129,11 @@ const Hero = () => {
                   )}
                 </span>
                 <span>
-                  <span className="block text-2xl font-black text-foreground dark:text-white">
-                    {stat.value}
-                  </span>
+                  <CountUp
+                    value={stat.value}
+                    delay={index * 120}
+                    className="block text-2xl font-black tabular-nums text-foreground dark:text-white"
+                  />
                   <span className="block text-xs leading-5 text-muted-foreground dark:text-slate-400">
                     {stat.label}
                   </span>

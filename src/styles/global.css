@@ -275,8 +275,8 @@
   }
 }
 
-:where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.sr-only):hover,
-:where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):focus-visible {
+:where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
+:where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):focus-visible {
   background-image: linear-gradient(
     100deg,
     currentColor 0%,
@@ -293,8 +293,8 @@
   animation: text-tide-flow 1.9s ease-in-out infinite;
 }
 
-.dark :where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.sr-only):hover,
-.dark :where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):focus-visible {
+.dark :where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
+.dark :where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):focus-visible {
   background-image: linear-gradient(
     100deg,
     currentColor 0%,
@@ -367,4 +367,5 @@
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
 }

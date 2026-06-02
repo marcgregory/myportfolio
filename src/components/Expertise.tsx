@@ -5,6 +5,7 @@ import {
   ShieldCheck,
   UsersRound,
 } from "lucide-react";
+import CountUp from "./CountUp";
 import {
   MongoIcon,
   NextIcon,
@@ -51,15 +52,17 @@ const Expertise = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {stats.map(({ icon: Icon, value, label }) => (
+            {stats.map(({ icon: Icon, value, label }, index) => (
               <div key={label} className="flex items-start gap-3">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-teal-700/20 bg-teal-500/10 text-teal-700 dark:border-violet-300/20 dark:bg-violet-400/10 dark:text-violet-200">
                   <Icon className="size-4" />
                 </span>
                 <span>
-                  <span className="block text-2xl font-black text-foreground dark:text-white">
-                    {value}
-                  </span>
+                  <CountUp
+                    value={value}
+                    delay={index * 100}
+                    className="block text-2xl font-black tabular-nums text-foreground dark:text-white"
+                  />
                   <span className="block text-xs leading-5 text-muted-foreground dark:text-slate-400">
                     {label}
                   </span>

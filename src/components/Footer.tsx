@@ -48,7 +48,7 @@ const Footer = () => {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={label}
-              className="rounded-full p-2 text-muted-foreground transition duration-300 hover:-translate-y-0.5 hover:bg-teal-50 hover:text-teal-700 hover:shadow-[0_10px_24px_rgba(15,118,110,0.14)] dark:text-slate-400 dark:hover:bg-violet-300/10 dark:hover:text-white dark:hover:shadow-[0_0_24px_rgba(124,58,237,0.22)]"
+              className="icon-link rounded-full p-2 text-muted-foreground transition duration-300 hover:-translate-y-0.5 hover:bg-teal-50 hover:text-teal-700 hover:shadow-[0_10px_24px_rgba(15,118,110,0.14)] dark:text-slate-400 dark:hover:bg-violet-300/10 dark:hover:text-white dark:hover:shadow-[0_0_24px_rgba(124,58,237,0.22)]"
             >
               <Icon className="size-5" />
             </a>
