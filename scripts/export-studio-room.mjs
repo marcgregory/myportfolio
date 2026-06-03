@@ -70,6 +70,41 @@ function addPlane(parent, args, position, rotation, color, opts = {}) {
   return mesh;
 }
 
+function addCylinder(parent, args, position, rotation, color, { name, roughness = 0.3, metalness = 0.82 } = {}) {
+  const mesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(...args),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness,
+      metalness,
+    })
+  );
+  mesh.position.set(...position);
+  mesh.rotation.set(...rotation);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  if (name) mesh.name = name;
+  parent.add(mesh);
+  return mesh;
+}
+
+function addSphere(parent, args, position, color, { name, roughness = 0.24, metalness = 0.86 } = {}) {
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(...args),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness,
+      metalness,
+    })
+  );
+  mesh.position.set(...position);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  if (name) mesh.name = name;
+  parent.add(mesh);
+  return mesh;
+}
+
 function addEmpty(parent, name, position) {
   const obj = new THREE.Object3D();
   obj.name = name;
@@ -186,13 +221,29 @@ function buildRoom() {
     name: "RadioLed_L",
   });
 
-  addBox(root, [2.1, 1.35, 0.1], [0, 1.35, 3.02], woodDark, { name: "DoorFrame" });
-  addBox(root, [0.55, 0.7, 0.06], [0, 1.55, 3.08], "#94a3b8", {
-    emissive: "#64748b",
-    emissiveIntensity: 0.08,
-    opacity: 0.4,
-    name: "DoorGlass",
+  addBox(root, [0.96, 2.24, 0.08], [0.35, 1.18, d / 2 - 0.1], woodDark, { name: "DoorSlab" });
+  addBox(root, [0.84, 2.08, 0.018], [0.35, 1.18, d / 2 - 0.149], "#2a1d15", { name: "DoorInnerShadow" });
+  addBox(root, [0.72, 1.84, 0.024], [0.35, 1.22, d / 2 - 0.164], "#513927", {
+    name: "DoorRaisedCenter",
   });
+  addBox(root, [0.5, 0.62, 0.03], [0.35, 1.66, d / 2 - 0.188], "#352319", { name: "DoorPanelTop" });
+  addBox(root, [0.5, 0.76, 0.03], [0.35, 0.78, d / 2 - 0.188], "#352319", { name: "DoorPanelBottom" });
+  addBox(root, [0.38, 0.5, 0.018], [0.35, 1.66, d / 2 - 0.208], "#23160f", {
+    name: "DoorPanelTopInset",
+  });
+  addBox(root, [0.38, 0.64, 0.018], [0.35, 0.78, d / 2 - 0.208], "#23160f", {
+    name: "DoorPanelBottomInset",
+  });
+  addBox(root, [0.12, 2.42, 0.12], [-0.25, 1.22, d / 2 - 0.11], wallTrim, { name: "DoorJambLeft" });
+  addBox(root, [0.12, 2.42, 0.12], [0.95, 1.22, d / 2 - 0.11], wallTrim, { name: "DoorJambRight" });
+  addBox(root, [1.32, 0.14, 0.12], [0.35, 2.45, d / 2 - 0.11], wallTrim, { name: "DoorHeader" });
+  addBox(root, [1.2, 0.08, 0.18], [0.35, 0.04, d / 2 - 0.14], wood, { name: "DoorThreshold" });
+  addBox(root, [0.055, 0.26, 0.035], [-0.15, 1.9, d / 2 - 0.22], "#9ca3af", { name: "DoorHingeTop" });
+  addBox(root, [0.055, 0.26, 0.035], [-0.15, 0.72, d / 2 - 0.22], "#9ca3af", { name: "DoorHingeBottom" });
+  addCylinder(root, [0.085, 0.085, 0.018, 24], [0.69, 1.12, d / 2 - 0.225], [Math.PI / 2, 0, 0], "#b08d57", {
+    name: "DoorKnobPlate",
+  });
+  addSphere(root, [0.07, 24, 16], [0.69, 1.12, d / 2 - 0.27], "#c9a45f", { name: "DoorKnob" });
 
   addBox(root, [2.55, 0.68, 0.12], [0.15, 1.02, -3.48], "#1e293b", { name: "TVStand" });
   addBox(root, [1.95, 1.16, 0.06], [0.15, 1.62, -3.418], "#0f172a", { name: "TVBezel" });

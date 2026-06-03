@@ -519,26 +519,124 @@ const DeveloperRoom = () => {
         metalness={0.2}
       />
 
-      <Box
-        name="DoorFrame"
-        args={[2.1, 1.35, 0.1]}
-        position={[0, 1.35, 3.02]}
-        color={ROOM_PALETTE.woodDark}
-        map={textures.woodDark}
-        roughness={0.62}
-      />
-      <mesh name="DoorGlass" position={[0, 1.55, 3.08]}>
-        <boxGeometry args={[0.55, 0.7, 0.06]} />
-        <meshStandardMaterial
-          color={ROOM_PALETTE.glass}
-          emissive="#64748b"
-          emissiveIntensity={0.08}
-          transparent
-          opacity={0.4}
-          roughness={0.12}
-          metalness={0.2}
+      <group name="Door" position={[0.35, 0, d / 2 - 0.1]}>
+        <group name="DoorLeaf" position={[-0.48, 0, 0]}>
+          <Box
+            name="DoorSlab"
+            args={[0.96, 2.24, 0.08]}
+            position={[0.48, 1.18, 0]}
+            color={ROOM_PALETTE.woodDark}
+            map={textures.woodDark}
+            roughness={0.58}
+          />
+          <Box
+            name="DoorInnerShadow"
+            args={[0.84, 2.08, 0.018]}
+            position={[0.48, 1.18, -0.049]}
+            color="#2a1d15"
+            roughness={0.72}
+          />
+          <Box
+            name="DoorRaisedCenter"
+            args={[0.72, 1.84, 0.024]}
+            position={[0.48, 1.22, -0.064]}
+            color="#513927"
+            map={textures.woodDark}
+            roughness={0.58}
+          />
+          <Box
+            name="DoorPanelTop"
+            args={[0.5, 0.62, 0.03]}
+            position={[0.48, 1.66, -0.088]}
+            color="#352319"
+            map={textures.woodDark}
+            roughness={0.68}
+          />
+          <Box
+            name="DoorPanelBottom"
+            args={[0.5, 0.76, 0.03]}
+            position={[0.48, 0.78, -0.088]}
+            color="#352319"
+            map={textures.woodDark}
+            roughness={0.68}
+          />
+          <Box
+            name="DoorPanelTopInset"
+            args={[0.38, 0.5, 0.018]}
+            position={[0.48, 1.66, -0.108]}
+            color="#23160f"
+            roughness={0.82}
+          />
+          <Box
+            name="DoorPanelBottomInset"
+            args={[0.38, 0.64, 0.018]}
+            position={[0.48, 0.78, -0.108]}
+            color="#23160f"
+            roughness={0.82}
+          />
+          <mesh
+            name="DoorKnobPlate"
+            position={[0.82, 1.12, -0.125]}
+            rotation={[Math.PI / 2, 0, 0]}
+            castShadow
+          >
+            <cylinderGeometry args={[0.085, 0.085, 0.018, 24]} />
+            <meshStandardMaterial color="#b08d57" roughness={0.28} metalness={0.82} />
+          </mesh>
+          <mesh name="DoorKnob" position={[0.82, 1.12, -0.17]} castShadow>
+            <sphereGeometry args={[0.07, 24, 16]} />
+            <meshStandardMaterial color="#c9a45f" roughness={0.24} metalness={0.86} />
+          </mesh>
+        </group>
+        <Box
+          name="DoorJambLeft"
+          args={[0.12, 2.42, 0.12]}
+          position={[-0.6, 1.22, -0.01]}
+          color={ROOM_PALETTE.wallTrim}
+          map={textures.wall}
+          roughness={0.72}
         />
-      </mesh>
+        <Box
+          name="DoorJambRight"
+          args={[0.12, 2.42, 0.12]}
+          position={[0.6, 1.22, -0.01]}
+          color={ROOM_PALETTE.wallTrim}
+          map={textures.wall}
+          roughness={0.72}
+        />
+        <Box
+          name="DoorHeader"
+          args={[1.32, 0.14, 0.12]}
+          position={[0, 2.45, -0.01]}
+          color={ROOM_PALETTE.wallTrim}
+          map={textures.wall}
+          roughness={0.72}
+        />
+        <Box
+          name="DoorThreshold"
+          args={[1.2, 0.08, 0.18]}
+          position={[0, 0.04, -0.04]}
+          color={ROOM_PALETTE.wood}
+          map={textures.wood}
+          roughness={0.62}
+        />
+        <Box
+          name="DoorHingeTop"
+          args={[0.055, 0.26, 0.035]}
+          position={[-0.5, 1.9, -0.12]}
+          color="#9ca3af"
+          roughness={0.3}
+          metalness={0.82}
+        />
+        <Box
+          name="DoorHingeBottom"
+          args={[0.055, 0.26, 0.035]}
+          position={[-0.5, 0.72, -0.12]}
+          color="#9ca3af"
+          roughness={0.3}
+          metalness={0.82}
+        />
+      </group>
 
       <Box
         name="TVStand"

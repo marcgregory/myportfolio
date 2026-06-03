@@ -268,6 +268,30 @@ const matchSpec = (name: string): MaterialSpec | null => {
   if (n.includes("window")) {
     return { color: "#e8e0d4", map: textures.wall, roughness: 0.75, metalness: 0 };
   }
+  if (n.includes("door") && n.includes("glass")) {
+    return {
+      color: ROOM_PALETTE.glass,
+      emissive: "#64748b",
+      emissiveIntensity: 0.08,
+      transparent: true,
+      opacity: 0.4,
+      roughness: 0.12,
+      metalness: 0.2,
+    };
+  }
+  if (n.includes("door") && (n.includes("hinge") || n.includes("knob"))) {
+    return {
+      color: n.includes("knob") ? "#c9a45f" : "#9ca3af",
+      roughness: n.includes("knob") ? 0.24 : 0.3,
+      metalness: n.includes("knob") ? 0.86 : 0.82,
+    };
+  }
+  if (n.includes("door") && (n.includes("jamb") || n.includes("header"))) {
+    return { color: ROOM_PALETTE.wallTrim, map: textures.wall, roughness: 0.72, metalness: 0 };
+  }
+  if (n.includes("door") && n.includes("threshold")) {
+    return { color: ROOM_PALETTE.wood, map: textures.wood, roughness: 0.62, metalness: 0.04 };
+  }
   if (n.includes("poster")) {
     return { map: textures.poster, roughness: 0.72, metalness: 0 };
   }
@@ -352,17 +376,6 @@ const matchSpec = (name: string): MaterialSpec | null => {
   }
   if (n.includes("lamp") && n.includes("bulb")) {
     return { color: "#fde68a", emissive: "#f59e0b", emissiveIntensity: 0.85, roughness: 0.25, metalness: 0 };
-  }
-  if (n.includes("door") && n.includes("glass")) {
-    return {
-      color: ROOM_PALETTE.glass,
-      emissive: "#64748b",
-      emissiveIntensity: 0.08,
-      transparent: true,
-      opacity: 0.4,
-      roughness: 0.12,
-      metalness: 0.2,
-    };
   }
   if (n.includes("plant")) {
     return { color: n.includes("pot") ? "#14532d" : "#166534", roughness: 0.85, metalness: 0 };
