@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { interactables } from "./interactables-data";
 import type { InteractableId, RoomMiniAppId } from "./room-types";
-import { toggleRoomAmbient } from "./useRoomAmbient";
 
 type InteractableActionHandlers = {
   onExit: () => void;
@@ -34,10 +33,6 @@ export const useInteractableActions = ({
     if (target.action === "exit") {
       onExit();
       return;
-    }
-
-    if (target.action === "radio") {
-      toggleRoomAmbient();
     }
 
     if (miniAppActions.has(id)) {

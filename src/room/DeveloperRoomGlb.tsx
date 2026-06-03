@@ -3,6 +3,7 @@ import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { ROOM_GLB_PATH, ROOM_GLB_TRANSFORM } from "@/constants/room-assets";
 import { extractInteractableAnchors } from "./interactable-anchors";
+import { applyRoomMaterials } from "./room-materials";
 import { useRegisterInteractableAnchors } from "./useInteractables";
 
 const DeveloperRoomGlb = () => {
@@ -15,6 +16,7 @@ const DeveloperRoomGlb = () => {
 
   const room = useMemo(() => {
     const clone = scene.clone(true);
+    applyRoomMaterials(clone);
     clone.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (mesh.isMesh) {

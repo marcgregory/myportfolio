@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Local room video assets can exceed GitHub's file-size limit.
+public/room/*.mp4

@@ -91,28 +91,49 @@ function buildRoom() {
   addPlane(root, [w, d], [0, h, 0], [Math.PI / 2, 0, 0], ceiling, { name: "Ceiling" });
 
   addBox(root, [w, 0.12, 0.08], [0, 0.06, -d / 2 + 0.04], wallTrim, { name: "Baseboard_Back" });
+  addBox(root, [w, 0.12, 0.08], [0, 0.06, d / 2 - 0.04], wallTrim, { name: "Baseboard_Front" });
+  addBox(root, [0.08, 0.12, d], [-w / 2 + 0.04, 0.06, 0], wallTrim, { name: "Baseboard_Left" });
+  addBox(root, [0.08, 0.12, d], [w / 2 - 0.04, 0.06, 0], wallTrim, { name: "Baseboard_Right" });
+  addBox(root, [w, 0.1, 0.06], [0, h - 0.05, -d / 2 + 0.03], wallTrim, { name: "Molding_Back" });
+  addBox(root, [w, 0.1, 0.06], [0, h - 0.05, d / 2 - 0.03], wallTrim, { name: "Molding_Front" });
+
   addBox(root, [w, h, 0.14], [0, h / 2, -d / 2], wall, { name: "Wall_Back" });
-  addBox(root, [w, h, 0.14], [0, h / 2, d / 2], wallTrim, { name: "Wall_Front" });
+  addBox(root, [w, h, 0.14], [0, h / 2, d / 2], wall, { name: "Wall_Front" });
   addBox(root, [0.14, h, d], [-w / 2, h / 2, 0], wall, { name: "Wall_Left" });
   addBox(root, [0.14, h, d], [w / 2, h / 2, 0], wall, { name: "Wall_Right" });
+
+  addBox(root, [1.85, 1.35, 0.08], [-2.65, 1.72, -d / 2 + 0.09], "#c4b5a0", { name: "Window_Frame" });
+  addBox(root, [1.55, 1.05, 0.02], [-2.65, 1.72, -d / 2 + 0.13], "#94a3b8", {
+    opacity: 0.32,
+    name: "Window_Glass",
+  });
+  addBox(root, [1.95, 0.06, 0.14], [-2.65, 1.02, -d / 2 + 0.1], wallTrim, { name: "Window_Sill" });
 
   addBox(root, [2.35, 0.78, 1.05], [-2.05, 0.39, -2.35], woodDark, { name: "Desk" });
   addBox(root, [0.12, 0.62, 0.12], [-2.78, 0.31, -1.95], metal, { name: "DeskLeg_L" });
   addBox(root, [0.12, 0.62, 0.12], [-1.32, 0.31, -1.95], metal, { name: "DeskLeg_R" });
-  addBox(root, [0.55, 0.06, 0.28], [-2.05, 0.8, -1.72], "#1f2937", { name: "Keyboard" });
+  addBox(root, [0.52, 0.028, 0.2], [-2.05, 0.795, -1.68], "#1f2937", { name: "KeyboardBase" });
+  addPlane(root, [0.48, 0.17], [-2.05, 0.811, -1.68], [-Math.PI / 2, 0, 0], "#4b5563", {
+    name: "KeyboardKeys",
+    roughness: 0.55,
+    metalness: 0.12,
+  });
+  addBox(root, [0.46, 0.012, 0.05], [-2.05, 0.803, -1.58], "#111827", {
+    name: "KeyboardWristRest",
+  });
+  addBox(root, [0.015, 0.012, 0.12], [-1.83, 0.801, -1.82], "#0f172a", { name: "KeyboardCable" });
+  addBox(root, [0.22, 0.008, 0.24], [-1.52, 0.788, -1.68], "#1e293b", { name: "MousePad" });
   addBox(root, [0.95, 0.62, 0.08], [-2.05, 0.86, -2.72], "#1f2428", { name: "MonitorBezel" });
-  addBox(root, [0.78, 0.48, 0.04], [-2.05, 0.9, -2.66], "#0a140a", {
-    emissive: "#33ff66",
-    emissiveIntensity: 0.85,
+  addBox(root, [0.78, 0.48, 0.04], [-2.05, 0.9, -2.66], "#020617", {
     name: "MonitorScreen",
   });
-  addPlane(root, [0.72, 0.44], [-2.05, 0.9, -2.635], [0, 0, 0], "#052e16", {
-    emissive: "#22c55e",
-    emissiveIntensity: 0.15,
-    opacity: 0.35,
-    name: "MonitorGlow",
-  });
-  addBox(root, [0.22, 0.14, 0.14], [-2.05, 0.58, -2.58], "#2f343c", { name: "Mouse" });
+  addBox(root, [0.22, 0.14, 0.14], [-2.05, 0.58, -2.58], "#2f343c", { name: "MonitorStand" });
+  addBox(root, [0.12, 0.04, 0.18], [-1.52, 0.812, -1.68], "#2f343c", { name: "Mouse" });
+
+  addBox(root, [0.52, 0.08, 0.52], [-2.05, 0.48, -1.55], "#1f2937", { name: "Chair_Seat" });
+  addBox(root, [0.48, 0.55, 0.06], [-2.05, 0.82, -1.78], "#1f2937", { name: "Chair_Back" });
+  addBox(root, [0.05, 0.38, 0.05], [-2.05, 0.28, -1.55], metal, { name: "Chair_Pole" });
+  addBox(root, [0.48, 0.04, 0.48], [-2.05, 0.08, -1.55], metal, { name: "Chair_Base" });
 
   addBox(root, [1.45, 0.08, 0.95], [-0.35, 0.74, -1.05], wood, { name: "ResumeTray" });
   addBox(root, [0.52, 0.06, 0.72], [-0.35, 0.8, -1.05], "#f8fafc", { name: "ResumePaper" });
@@ -128,17 +149,24 @@ function buildRoom() {
   });
 
   addBox(root, [1.35, 2.05, 0.22], [-3.35, 1.02, 0.35], wood, { name: "Bookshelf" });
+  addBox(root, [0.08, 0.28, 0.16], [-3.55, 1.55, 0.35], "#7f1d1d", { name: "Book_1" });
+  addBox(root, [0.1, 0.32, 0.16], [-3.35, 1.57, 0.35], "#1e3a8a", { name: "Book_2" });
+  addBox(root, [0.07, 0.26, 0.16], [-3.15, 1.54, 0.35], "#14532d", { name: "Book_3" });
   addBox(root, [0.95, 0.22, 0.95], [-3.35, 2.18, 0.35], "#14532d", { name: "PlantPot" });
-  addBox(root, [0.28, 0.55, 0.22], [-3.35, 1.55, 0.35], "#422006", { name: "Plant" });
+  addBox(root, [0.28, 0.55, 0.22], [-3.35, 1.55, 0.35], "#166534", { name: "Plant" });
 
   addBox(root, [0.16, 1.45, 0.16], [3.55, 0.72, 1.85], metal, { name: "LampPole" });
+  addBox(root, [0.38, 0.22, 0.38], [3.55, 1.52, 1.85], "#fef3c7", {
+    opacity: 0.92,
+    name: "LampShade",
+  });
   const lampBulb = new THREE.Mesh(
-    new THREE.SphereGeometry(0.18, 16, 16),
+    new THREE.SphereGeometry(0.12, 16, 16),
     new THREE.MeshStandardMaterial({
       color: "#fde68a",
-      emissive: "#fbbf24",
-      emissiveIntensity: 1.4,
-      roughness: 0.35,
+      emissive: "#f59e0b",
+      emissiveIntensity: 0.85,
+      roughness: 0.25,
     })
   );
   lampBulb.position.set(3.55, 1.62, 1.85);
@@ -148,38 +176,32 @@ function buildRoom() {
   addBox(root, [0.42, 0.22, 0.28], [3.35, 0.92, 1.72], "#1c1917", { name: "RadioBody" });
   addBox(root, [0.32, 0.1, 0.2], [3.35, 1.05, 1.72], "#292524", { name: "RadioTop" });
   addBox(root, [0.08, 0.06, 0.04], [3.48, 1.02, 1.82], "#0f172a", {
-    emissive: "#38bdf8",
-    emissiveIntensity: 0.55,
+    emissive: "#2563eb",
+    emissiveIntensity: 0.35,
     name: "RadioLed_R",
   });
   addBox(root, [0.08, 0.06, 0.04], [3.22, 1.02, 1.82], "#0f172a", {
-    emissive: "#22c55e",
-    emissiveIntensity: 0.45,
+    emissive: "#15803d",
+    emissiveIntensity: 0.35,
     name: "RadioLed_L",
   });
 
   addBox(root, [2.1, 1.35, 0.1], [0, 1.35, 3.02], woodDark, { name: "DoorFrame" });
   addBox(root, [0.55, 0.7, 0.06], [0, 1.55, 3.08], "#94a3b8", {
-    emissive: "#38bdf8",
-    emissiveIntensity: 0.25,
-    opacity: 0.55,
+    emissive: "#64748b",
+    emissiveIntensity: 0.08,
+    opacity: 0.4,
     name: "DoorGlass",
   });
 
-  addBox(root, [2.4, 0.95, 0.12], [0.15, 1.25, -3.48], "#1e293b", { name: "ContactDesk" });
-  addPlane(root, [1.7, 0.55], [0.15, 1.35, -3.4], [0, 0, 0], "#0f172a", {
-    emissive: "#38bdf8",
-    emissiveIntensity: 0.35,
-    name: "ContactScreen",
-  });
+  addBox(root, [2.55, 0.68, 0.12], [0.15, 1.02, -3.48], "#1e293b", { name: "TVStand" });
+  addBox(root, [1.95, 1.16, 0.06], [0.15, 1.62, -3.418], "#0f172a", { name: "TVBezel" });
+  addBox(root, [1.85, 1.04, 0.02], [0.15, 1.62, -3.4], "#020617", { name: "TVScreen" });
 
-  addBox(root, [0.55, 0.42, 0.55], [1.15, 0.21, 1.45], "#312e81", { name: "GithubRigBase" });
-  addBox(root, [0.38, 0.08, 0.38], [1.15, 0.46, 1.45], "#111827", { name: "GithubRigMid" });
-  addPlane(root, [0.28, 0.16], [1.15, 0.52, 1.62], [0, 0, 0], "#0f172a", {
-    emissive: "#a855f7",
-    emissiveIntensity: 0.5,
-    name: "GithubScreen",
-  });
+  addBox(root, [0.48, 0.04, 0.34], [1.15, 0.38, 1.45], "#374151", { name: "LaptopBase" });
+  addBox(root, [0.44, 0.01, 0.28], [1.15, 0.405, 1.45], "#1f2937", { name: "LaptopKeyboard" });
+  addBox(root, [0.3, 0.18, 0.018], [1.15, 0.52, 1.58], "#111827", { name: "LaptopLid" });
+  addBox(root, [0.28, 0.16, 0.01], [1.15, 0.52, 1.592], "#020617", { name: "LaptopScreen" });
 
   addBox(root, [0.48, 0.52, 0.48], [0.95, 0.26, 0.15], "#1f2937", { name: "SideTable" });
   addBox(root, [0.42, 0.08, 0.42], [0.95, 0.56, 0.15], "#111827", { name: "SideTableTop" });

@@ -41,12 +41,12 @@ export const interactables: InteractableDef[] = [
     id: "contact",
     label: "Contact Terminal",
     hint: "Open contact terminal app",
-    position: [0.15, 1.32, -3.35],
-    radius: 1.35,
+    position: [0.15, 1.62, -3.35],
+    radius: 1.45,
     action: "contact",
     focus: {
-      position: [0.15, 1.48, -2.05],
-      lookAt: [0.15, 1.35, -3.38],
+      position: [0.15, 1.55, -2.05],
+      lookAt: [0.15, 1.62, -3.38],
     },
   },
   {

@@ -2,14 +2,6 @@ import { cvProfile, cvProjects } from "@/data/cv-content";
 import portfolioProjects from "../../data/portfolio-projects.json";
 import { findInteractable } from "./interactables-data";
 import type { RoomMiniAppId } from "./room-types";
-import {
-  getRoomAmbientPlaying,
-  getRoomAmbientVolume,
-  setRoomAmbientVolume,
-  subscribeRoomAmbient,
-  toggleRoomAmbient,
-} from "./useRoomAmbient";
-import { useSyncExternalStore } from "react";
 
 type RoomMiniAppsProps = {
   appId: RoomMiniAppId | null;
@@ -18,17 +10,6 @@ type RoomMiniAppsProps = {
 };
 
 const RoomMiniApps = ({ appId, onClose, onGoHome }: RoomMiniAppsProps) => {
-  const ambientOn = useSyncExternalStore(
-    subscribeRoomAmbient,
-    getRoomAmbientPlaying,
-    () => false
-  );
-  const ambientVolume = useSyncExternalStore(
-    subscribeRoomAmbient,
-    getRoomAmbientVolume,
-    () => 0.35
-  );
-
   if (!appId) return null;
 
   const interactable = findInteractable(appId);
@@ -165,38 +146,15 @@ const RoomMiniApps = ({ appId, onClose, onGoHome }: RoomMiniAppsProps) => {
           {appId === "radio" && (
             <>
               <p className="room-mini-panel__lede">
-                Studio ambience — add <code>public/room/ambient.mp3</code> for a custom
-                loop, or use the built-in hum.
+                Default room ambience plays when you enter and stops when you exit.
               </p>
               <div className="room-mini-radio">
                 <div className="room-mini-radio__display">
                   <span className="room-mini-radio__status">
-                    {ambientOn ? "▶ ON AIR" : "■ STANDBY"}
+                    ROOM AMBIENCE
                   </span>
                   <span className="room-mini-radio__track">Studio floor mix</span>
                 </div>
-                <label className="room-mini-radio__volume">
-                  Volume
-                  <input
-                    type="range"
-                    min={0}
-                    max={1}
-                    step={0.05}
-                    value={ambientVolume}
-                    onChange={(event) =>
-                      setRoomAmbientVolume(Number(event.target.value))
-                    }
-                  />
-                </label>
-              </div>
-              <div className="room-mini-panel__actions">
-                <button
-                  type="button"
-                  className="room-btn room-btn--primary"
-                  onClick={() => toggleRoomAmbient()}
-                >
-                  {ambientOn ? "Stop" : "Play"} ambient
-                </button>
               </div>
             </>
           )}

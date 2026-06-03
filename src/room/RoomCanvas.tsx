@@ -1,7 +1,9 @@
-import { KeyboardControls } from "@react-three/drei";
+import { ContactShadows, KeyboardControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
-import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Suspense, useCallback, useRef, useState } from "react";
+import * as THREE from "three";
+import RoomActiveScreens from "./RoomActiveScreens";
 import DeveloperRoomScene from "./DeveloperRoomScene";
 import FirstPersonPlayer from "./FirstPersonPlayer";
 import { useInteractableDefs } from "./useInteractables";
@@ -66,10 +68,19 @@ const RoomScene = ({
 
   return (
     <>
-      <color attach="background" args={["#120f0d"]} />
-      <fog attach="fog" args={["#1a1512", 4.5, 14]} />
+      <color attach="background" args={["#1a1714"]} />
+      <fog attach="fog" args={["#2a2520", 9, 20]} />
       <RoomLighting />
       <DeveloperRoomScene />
+      <RoomActiveScreens />
+      <ContactShadows
+        position={[0, 0.001, 0]}
+        opacity={0.42}
+        scale={12}
+        blur={2.2}
+        far={3.8}
+        color="#000000"
+      />
       <RoomInteractables
         activeId={isFrozen ? null : nearbyId}
         onProximityChange={handleProximityChange}
@@ -80,13 +91,7 @@ const RoomScene = ({
         onInteractRequest={handleInteract}
       />
       <EffectComposer multisampling={0} enableNormalPass={false}>
-        <Bloom
-          intensity={0.55}
-          luminanceThreshold={0.42}
-          luminanceSmoothing={0.35}
-          mipmapBlur
-        />
-        <Vignette eskil offset={0.18} darkness={0.62} />
+        <Vignette eskil offset={0.22} darkness={0.28} />
       </EffectComposer>
     </>
   );
@@ -109,7 +114,12 @@ const RoomCanvas = ({
         far: 40,
       }}
       dpr={[1, 1.6]}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      gl={{
+        antialias: true,
+        powerPreference: "high-performance",
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1.38,
+      }}
     >
       <Suspense fallback={null}>
         <RoomScene

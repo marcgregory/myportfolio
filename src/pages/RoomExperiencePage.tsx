@@ -5,13 +5,9 @@ import { useFindInteractable } from "@/room/useInteractables";
 import RoomGuide from "@/room/RoomGuide";
 import RoomMiniApps from "@/room/RoomMiniApps";
 import type { InteractableId, RoomFocusState, RoomMiniAppId } from "@/room/room-types";
-import {
-  getRoomAmbientPlaying,
-  startRoomAmbient,
-  stopRoomAmbient,
-  subscribeRoomAmbient,
-} from "@/room/useRoomAmbient";
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { stopRoomTvAudio } from "@/room/room-tv-audio";
+import { startRoomAmbient, stopRoomAmbient } from "@/room/useRoomAmbient";
+import { useCallback, useEffect, useState } from "react";
 import { useGoHome } from "@/utils/useGoHome";
 import "@/room/room-ui.css";
 
@@ -50,15 +46,11 @@ const RoomExperiencePageContent = () => {
   });
   const [miniAppId, setMiniAppId] = useState<RoomMiniAppId | null>(null);
   const [guideActive, setGuideActive] = useState(false);
-  const ambientOn = useSyncExternalStore(
-    subscribeRoomAmbient,
-    getRoomAmbientPlaying,
-    () => false
-  );
 
   const goHome = useGoHome();
 
   const exitRoom = useCallback(() => {
+    stopRoomTvAudio();
     stopRoomAmbient();
     goHome();
   }, [goHome]);
@@ -72,7 +64,6 @@ const RoomExperiencePageContent = () => {
 
   useEffect(() => {
     if (!isLocked) return;
-    void startRoomAmbient();
     setGuideActive(true);
   }, [isLocked]);
 
@@ -97,6 +88,7 @@ const RoomExperiencePageContent = () => {
   useEffect(() => {
     document.title = "Marc Gregory — 3D Studio";
     document.documentElement.classList.add("dark");
+    stopRoomTvAudio();
 
     const onLockChange = () => {
       const locked = document.pointerLockElement !== null;
@@ -129,6 +121,7 @@ const RoomExperiencePageContent = () => {
       if (document.pointerLockElement) {
         document.exitPointerLock();
       }
+      stopRoomTvAudio();
       stopRoomAmbient();
     };
   }, [closeMiniApp, exitRoom, focusState.active, miniAppId]);
@@ -183,19 +176,16 @@ const RoomExperiencePageContent = () => {
             <span className="room-chip">
               <span className="room-chip__dot" />
               Marc&apos;s Dev Studio
-              {ambientOn && (
-                <span className="room-chip__ambient" aria-label="Ambient audio on">
-                  · Ambient on
-                </span>
-              )}
             </span>
-            <button
-              type="button"
-              className="room-btn room-btn--ghost"
-              onClick={exitRoom}
-            >
-              Exit
-            </button>
+            <div className="room-hud__actions">
+              <button
+                type="button"
+                className="room-btn room-btn--ghost"
+                onClick={exitRoom}
+              >
+                Exit
+              </button>
+            </div>
           </div>
 
           {focusState.active && !miniAppId && (

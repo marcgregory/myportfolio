@@ -40,6 +40,13 @@
   padding: 1rem 1.1rem;
 }
 
+.room-hud__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
 .room-chip {
   display: inline-flex;
   align-items: center;
