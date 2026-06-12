@@ -36,6 +36,8 @@ export function ImageWithFallback(
       alt={alt}
       className={className}
       style={style}
+      loading={rest.loading ?? "lazy"}
+      decoding={rest.decoding ?? "async"}
       {...rest}
       onError={handleError}
     />

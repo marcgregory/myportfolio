@@ -55,5 +55,52 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
+    build: {
+      modulePreload: {
+        resolveDependencies(_filename, deps) {
+          return deps.filter((dep) => !dep.includes("webgl-vendor"));
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("vite/preload-helper")) {
+              return "preload-helper";
+            }
+
+            if (id.includes("node_modules")) {
+              if (
+                id.includes("/three/") ||
+                id.includes("@react-three") ||
+                id.includes("postprocessing")
+              ) {
+                return "webgl-vendor";
+              }
+
+              if (
+                id.includes("react-hook-form") ||
+                id.includes("@hookform") ||
+                id.includes("/zod/") ||
+                id.includes("@emailjs")
+              ) {
+                return "form-vendor";
+              }
+
+              if (id.includes("/motion/") || id.includes("framer-motion")) {
+                return "motion-vendor";
+              }
+
+              if (
+                id.includes("/react/") ||
+                id.includes("/react-dom/") ||
+                id.includes("react-router-dom")
+              ) {
+                return "react-vendor";
+              }
+            }
+          },
+        },
+      },
+    },
   };
 });

@@ -187,6 +187,83 @@
   mask-composite: intersect;
 }
 
+.hero-reveal {
+  animation: hero-reveal 0.75s ease-out both;
+}
+
+.hero-reveal-delayed {
+  animation-delay: 120ms;
+}
+
+.hero-stat-reveal {
+  animation: hero-stat-reveal 0.55s ease-out both;
+}
+
+.nav-reveal {
+  animation: nav-reveal 0.65s ease-out both;
+}
+
+.mobile-nav-reveal {
+  animation: mobile-nav-reveal 0.2s ease-out both;
+}
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hero-stat-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes nav-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobile-nav-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal,
+  .hero-stat-reveal,
+  .nav-reveal,
+  .mobile-nav-reveal {
+    animation: none;
+  }
+}
+
 .glass-panel {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(42, 54, 86, 0.12);

@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import {
   ArrowUpRight,
   Code2,
@@ -18,7 +17,11 @@ const heroStats = [
   { value: "100%", label: "Client Satisfaction" },
 ];
 
-const clients = ["/avatar.png", "/projects/volendaystaffing.png", "/projects/lendami.png"];
+const clients = [
+  "/clients/avatar-80.webp",
+  "/clients/volendaystaffing-80.webp",
+  "/clients/lendami-80.webp",
+];
 
 const Hero = () => {
   return (
@@ -28,12 +31,7 @@ const Hero = () => {
     >
       <HeroScene />
       <div className="site-shell relative z-10 grid min-h-[calc(100vh-8rem)] items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
-          className="max-w-2xl"
-        >
+        <div className="hero-reveal max-w-2xl">
           <p className="section-kicker mb-6">Full-Stack Developer</p>
           <h1 className="font-display text-[clamp(3rem,7vw,5.95rem)] font-black leading-[0.98] tracking-[-0.045em] text-foreground dark:text-white">
             Crafting Digital Experiences{" "}
@@ -69,6 +67,10 @@ const Hero = () => {
                   key={client}
                   src={client}
                   alt=""
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  decoding="async"
                   className="size-10 rounded-full border-2 border-white object-cover dark:border-[#070b1d]"
                   style={{ zIndex: clients.length - index }}
                 />
@@ -80,14 +82,9 @@ const Hero = () => {
               <span className="inline-block size-2 rounded-full bg-emerald-400" />
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 28 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.12, ease: "easeOut" }}
-          className="relative mx-auto flex w-full max-w-[640px] items-center justify-center lg:min-h-[680px]"
-        >
+        <div className="hero-reveal hero-reveal-delayed relative mx-auto flex w-full max-w-[640px] items-center justify-center lg:min-h-[680px]">
           <div className="absolute left-[7%] top-[23%] hidden size-14 items-center justify-center rounded-full border border-teal-700/15 bg-white/60 text-teal-700 shadow-[0_18px_40px_rgba(15,118,110,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.06] dark:text-cyan-300 dark:shadow-[0_0_32px_rgba(56,189,248,0.2)] sm:flex">
             <Sparkles className="size-5" />
           </div>
@@ -105,21 +102,34 @@ const Hero = () => {
           <div className="absolute bottom-[17%] h-[18%] w-[42%] rounded-full bg-emerald-500/8 blur-2xl dark:bg-cyan-500/8" />
           <div className="relative w-[min(83vw,480px)]">
             <div className="absolute inset-x-[24%] bottom-7 h-10 rounded-full bg-slate-950/18 blur-xl dark:bg-black/35" />
-            <img
-              src="/hero/marc-hero.png"
-              alt="Marc Gregory"
-              className="relative z-10 mx-auto max-h-[650px] w-full object-contain drop-shadow-[0_24px_52px_rgba(0,0,0,0.38)]"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcSet="/hero/marc-hero-640.avif 640w, /hero/marc-hero-960.avif 960w"
+                sizes="(min-width: 1024px) 480px, 83vw"
+              />
+              <source
+                type="image/webp"
+                srcSet="/hero/marc-hero-640.webp 640w, /hero/marc-hero-960.webp 960w"
+                sizes="(min-width: 1024px) 480px, 83vw"
+              />
+              <img
+                src="/hero/marc-hero-960.webp"
+                alt="Marc Gregory"
+                width={1024}
+                height={1536}
+                fetchPriority="high"
+                className="relative z-10 mx-auto max-h-[650px] w-full object-contain drop-shadow-[0_24px_52px_rgba(0,0,0,0.38)]"
+              />
+            </picture>
           </div>
 
           <div className="absolute right-0 top-[35%] hidden w-40 space-y-7 lg:block">
             {heroStats.map((stat, index) => (
-              <motion.div
+              <div
                 key={stat.label}
-                initial={{ opacity: 0, x: 24 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.55, delay: 0.5 + index * 0.12 }}
-                className="flex gap-4"
+                className="hero-stat-reveal flex gap-4"
+                style={{ animationDelay: `${500 + index * 120}ms` }}
               >
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-teal-700/20 bg-teal-500/10 text-teal-700 dark:border-violet-300/20 dark:bg-violet-400/10 dark:text-violet-200">
                   {index === 0 ? (
@@ -140,10 +150,10 @@ const Hero = () => {
                     {stat.label}
                   </span>
                 </span>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

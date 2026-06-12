@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
@@ -34,11 +33,8 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
   };
 
   return (
-    <motion.header
-      initial={{ y: -24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.65, ease: "easeOut" }}
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+    <header
+      className={`nav-reveal fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
         scrolled
           ? "border-slate-900/10 bg-white/78 shadow-[0_14px_38px_rgba(49,64,105,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-[#050816]/82 dark:shadow-none"
           : "border-slate-900/5 bg-white/42 backdrop-blur-md dark:border-white/5 dark:bg-[#050816]/34"
@@ -99,11 +95,7 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
       </div>
 
       {isMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="border-t border-slate-900/10 bg-white/92 px-4 py-5 backdrop-blur-2xl dark:border-white/10 dark:bg-[#070b1d]/96 md:hidden"
-        >
+        <div className="mobile-nav-reveal border-t border-slate-900/10 bg-white/92 px-4 py-5 backdrop-blur-2xl dark:border-white/10 dark:bg-[#070b1d]/96 md:hidden">
           <div className="site-shell grid gap-2">
             {links.map((link) => (
               <button
@@ -126,9 +118,9 @@ const Navigation = ({ onChangeTheme }: NavigationProps) => {
               <ThemeToggle onChangeTheme={onChangeTheme} />
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
-    </motion.header>
+    </header>
   );
 };
 
