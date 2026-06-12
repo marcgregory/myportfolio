@@ -5,7 +5,8 @@
 
 :root {
   --font-sans: "Aptos", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Aptos Display", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    "Aptos Display", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   --background: #f7f9ff;
   --foreground: #111827;
   --card: rgba(255, 255, 255, 0.78);
@@ -274,7 +275,11 @@
 
 .dark .glass-panel {
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.025)
+    ),
     rgba(8, 13, 33, 0.68);
   border-color: rgba(148, 163, 184, 0.16);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
@@ -352,8 +357,16 @@
   }
 }
 
-:where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
-:where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):focus-visible {
+:where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not(
+    [role="button"]
+  ):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(
+    .button-gradient *
+  ):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
+:where(a, label):not(button):not(button *):not([role="button"]):not(
+    [role="button"] *
+  ):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(
+    .icon-link
+  ):not(.icon-link *):focus-visible {
   background-image: linear-gradient(
     100deg,
     currentColor 0%,
@@ -370,8 +383,18 @@
   animation: text-tide-flow 1.9s ease-in-out infinite;
 }
 
-.dark :where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
-.dark :where(a, label):not(button):not(button *):not([role="button"]):not([role="button"] *):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(.icon-link):not(.icon-link *):focus-visible {
+.dark
+  :where(h1, h2, h3, h4, h5, h6, p, a, li, label):not(button):not(button *):not(
+    [role="button"]
+  ):not([role="button"] *):not(svg):not(svg *):not(.button-gradient):not(
+    .button-gradient *
+  ):not(.text-gradient):not(.icon-link):not(.icon-link *):not(.sr-only):hover,
+.dark
+  :where(a, label):not(button):not(button *):not([role="button"]):not(
+    [role="button"] *
+  ):not(.button-gradient):not(.button-gradient *):not(.text-gradient):not(
+    .icon-link
+  ):not(.icon-link *):focus-visible {
   background-image: linear-gradient(
     100deg,
     currentColor 0%,
@@ -385,7 +408,13 @@
 
 .text-gradient:hover,
 .text-gradient:focus-visible {
-  background: linear-gradient(100deg, #0f766e 0%, #0891b2 32%, #14b8a6 58%, #0f766e 100%);
+  background: linear-gradient(
+    100deg,
+    #0f766e 0%,
+    #0891b2 32%,
+    #14b8a6 58%,
+    #0f766e 100%
+  );
   background-size: 260% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -395,7 +424,13 @@
 
 .dark .text-gradient:hover,
 .dark .text-gradient:focus-visible {
-  background: linear-gradient(100deg, #f0abfc 0%, #38bdf8 34%, #a78bfa 62%, #f0abfc 100%);
+  background: linear-gradient(
+    100deg,
+    #f0abfc 0%,
+    #38bdf8 34%,
+    #a78bfa 62%,
+    #f0abfc 100%
+  );
   background-size: 260% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -431,10 +466,6 @@
   color: #b56cff;
 }
 
-.cursor-interactive {
-  cursor: default;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -444,5 +475,4 @@
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-
 }

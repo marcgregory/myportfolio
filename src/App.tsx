@@ -6,7 +6,6 @@ import Navigation from "./components/Navigation";
 import useTheme from "./hooks/useTheme";
 
 const Contacts = lazy(() => import("./components/Contacts"));
-const Cursor = lazy(() => import("./components/Cursor"));
 const CvChatWidget = lazy(() => import("./components/CvChatWidget"));
 const Expertise = lazy(() => import("./components/Expertise"));
 const Footer = lazy(() => import("./components/Footer"));
@@ -101,7 +100,6 @@ function App() {
       <IdleMount>
         <Suspense fallback={null}>
           <ScrollToTop />
-          <Cursor />
         </Suspense>
       </IdleMount>
       {isCvChatOpen ? (
