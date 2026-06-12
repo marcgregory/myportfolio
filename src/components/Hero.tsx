@@ -1,10 +1,4 @@
-import {
-  ArrowUpRight,
-  Code2,
-  Figma,
-  Rocket,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRight, Code2, Figma, Rocket, Sparkles } from "lucide-react";
 import CountUp from "./CountUp";
 import { Button } from "./ui/button";
 import HeroScene from "./HeroScene";
@@ -77,8 +71,8 @@ const Hero = () => {
               ))}
             </div>
             <p className="max-w-[170px] text-sm leading-6 text-muted-foreground dark:text-slate-400">
-              Trusted by <CountUp value="20+" className="tabular-nums" /> clients
-              worldwide{" "}
+              Trusted by <CountUp value="20+" className="tabular-nums" />{" "}
+              clients worldwide{" "}
               <span className="inline-block size-2 rounded-full bg-emerald-400" />
             </p>
           </div>

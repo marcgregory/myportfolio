@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import LowerSectionsBackdrop from "./components/LowerSectionsBackdrop";
 import Navigation from "./components/Navigation";
 import useTheme from "./hooks/useTheme";
+import { ViewportMount } from "./components/ViewportMount";
 
 const Contacts = lazy(() => import("./components/Contacts"));
 const CvChatWidget = lazy(() => import("./components/CvChatWidget"));
@@ -76,32 +77,36 @@ function App() {
       <Navigation onChangeTheme={handleThemeChange} />
       <main className="relative z-10">
         <Hero />
-        <IdleMount fallback={<SectionFallback className="py-20" />}>
-          <Suspense fallback={<SectionFallback className="py-20" />}>
-            <Expertise />
-          </Suspense>
-        </IdleMount>
-        <IdleMount fallback={<SectionFallback className="py-20" />}>
-          <Suspense fallback={<SectionFallback className="py-20" />}>
-            <Projects />
-          </Suspense>
-        </IdleMount>
-        <IdleMount fallback={<SectionFallback className="py-24" />}>
-          <Suspense fallback={<SectionFallback className="py-24" />}>
-            <Contacts onStartConversation={() => setIsCvChatOpen(true)} />
-          </Suspense>
-        </IdleMount>
+        {/* Expertise - now viewport-based lazy loading */}
+        <ViewportMount
+          render={() => <Expertise />}
+          fallback={<SectionFallback className="py-20" />}
+          rootMargin="200px"
+        />
+        {/* Projects - viewport-based lazy loading */}
+        <ViewportMount
+          render={() => <Projects />}
+          fallback={<SectionFallback className="py-20" />}
+          rootMargin="200px"
+        />
+        {/* Contacts - viewport-based lazy loading */}
+        <ViewportMount
+          render={() => <Contacts onStartConversation={() => setIsCvChatOpen(true)} />}
+          fallback={<SectionFallback className="py-24" />}
+          rootMargin="200px"
+        />
+        {/* Footer and ScrollToTop keep using IdleMount for now (they are not motion-heavy) */}
         <IdleMount>
           <Suspense fallback={null}>
             <Footer />
           </Suspense>
         </IdleMount>
+        <IdleMount>
+          <Suspense fallback={null}>
+            <ScrollToTop />
+          </Suspense>
+        </IdleMount>
       </main>
-      <IdleMount>
-        <Suspense fallback={null}>
-          <ScrollToTop />
-        </Suspense>
-      </IdleMount>
       {isCvChatOpen ? (
         <Suspense
           fallback={

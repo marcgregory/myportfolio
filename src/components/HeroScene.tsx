@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { useViewport } from "@/hooks/useViewport";
 
 const HeroSceneWebgl = lazy(() => import("./HeroSceneWebgl"));
 
@@ -26,17 +27,8 @@ const useMobileScene = () => {
   return isMobile;
 };
 
-const requestIdle = (callback: () => void) => {
-  if ("requestIdleCallback" in window) {
-    const idleId = window.requestIdleCallback(callback, { timeout: 1400 });
-    return () => window.cancelIdleCallback(idleId);
-  }
-
-  const timeoutId = globalThis.setTimeout(callback, 900);
-  return () => globalThis.clearTimeout(timeoutId);
-};
-
 const HeroScene = () => {
+  const [ref, inView] = useViewport<HTMLDivElement>({ rootMargin: "200px" });
   const isMobile = useMobileScene();
   const [isReducedMotion, setIsReducedMotion] = useState(prefersReducedMotion);
   const [canLoadWebgl, setCanLoadWebgl] = useState(false);
@@ -51,17 +43,23 @@ const HeroScene = () => {
     return () => media.removeEventListener("change", update);
   }, []);
 
+  // Load WebGL when in viewport and not reduced motion
   useEffect(() => {
     if (isReducedMotion) {
       setCanLoadWebgl(false);
       return;
     }
 
-    return requestIdle(() => setCanLoadWebgl(true));
-  }, [isReducedMotion]);
+    if (inView) {
+      setCanLoadWebgl(true);
+    }
+    // Optionally, we could also load after a timeout if never in view?
+    // But for hero, we expect it to be in view.
+  }, [inView, isReducedMotion]);
 
   return (
     <div
+      ref={ref}
       aria-hidden="true"
       className="hero-scene-layer pointer-events-none absolute inset-0 z-[1] opacity-85"
     >
